@@ -1,0 +1,3699 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小猪电玩馆 · 小猪出逃日记</title>
+
+<style>
+:root{
+  --ink:#164d4f;
+  --teal:#098f87;
+  --line:#cde4de;
+  --coral:#f46c59;
+  --shadow:0 12px 28px rgba(41,103,106,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  background:linear-gradient(135deg,#fff0f4,#fff9fb 65%,#fdebf2);
+  font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif;
+}
+body.pig-mode{
+  background:linear-gradient(130deg,#edf9f4,#f7fffa 60%,#e9faf6);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.48}
+button,input{outline-offset:3px}
+button:focus-visible,input:focus-visible{outline:2px solid #f59b6d}
+.hidden{display:none!important}
+
+.topbar{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:0 30px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  border-bottom:1px solid #d8ece5;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 6px 20px rgba(41,103,106,.06);
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{
+  width:44px;
+  height:44px;
+  flex:none;
+  border-radius:11px;
+  background:#d9f3eb;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+}
+.brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
+.brand-en{font-size:10px;font-weight:800;color:#ee705d;letter-spacing:1.5px}
+.brand-name{font-size:20px;font-weight:900;margin-top:2px}
+.service{font-size:12px;font-weight:700;color:#168b77;white-space:nowrap}
+.service-dot{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  margin-right:6px;
+  border-radius:50%;
+  background:#45cba7;
+}
+
+.flow-page{max-width:1360px;margin:auto;padding:32px}
+.flow-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  margin:8px 0 26px;
+}
+.kicker{
+  margin:0 0 10px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:#f17668;
+}
+.flow-title{margin:0;font-size:clamp(32px,4vw,48px);color:#111}
+.flow-subtitle{margin:10px 0 0;font-size:13px;color:#7a9290}
+.flow-step{text-align:right;font-size:11px;color:#79908e}
+.flow-step strong{display:block;font-size:40px;line-height:1.1;color:#111}
+
+.journey-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.journey-card{
+  min-height:285px;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  overflow:hidden;
+  border:1px solid #d5e7e2;
+  border-radius:13px;
+  background:#fff;
+  box-shadow:var(--shadow);
+}
+.journey-cover{
+  position:relative;
+  min-height:285px;
+  overflow:hidden;
+  background:#f5c3d1;
+}
+.journey-cover.bingo-cover{background:#191916}
+.journey-cover>img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  margin:0;
+  object-fit:cover;
+  display:block;
+}
+.journey-cover::after{
+  content:"";
+  position:absolute;
+  inset:45% 0 0;
+  pointer-events:none;
+  background:linear-gradient(transparent,rgba(0,0,0,.2));
+}
+.cover-title{
+  position:absolute;
+  z-index:1;
+  left:18px;
+  right:10px;
+  bottom:17px;
+  font-size:27px;
+  font-weight:900;
+  color:#103f44;
+  text-shadow:0 2px 3px #fff;
+}
+.bingo-cover .cover-title{color:#fff2cc;text-shadow:0 2px 4px #000}
+.travel-cover{background:linear-gradient(135deg,#b9e9ff,#dff8e7)!important}
+.travel-symbol{position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);font-size:76px;filter:drop-shadow(0 8px 5px rgba(33,99,100,.18))}
+.blackhole-cover{background:radial-gradient(circle at 50% 44%,#6c3b92 0,#342052 22%,#171526 48%,#080a13 100%)!important}
+.blackhole-cover::before{content:"";position:absolute;left:50%;top:44%;width:126px;height:126px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#05050a 0 31%,#e2a4ff 33% 36%,#8c43b5 42%,#311c54 52%,transparent 68%);box-shadow:0 0 18px #d98aff,0 0 42px rgba(165,82,232,.72);opacity:.96}
+.blackhole-cover::after{content:"✦  ·  ✧  ·  ✦";inset:auto 0 48%;background:none;color:rgba(245,218,255,.78);font-size:16px;letter-spacing:14px;text-align:center;transform:rotate(-8deg);text-shadow:0 0 9px #e3a5ff}
+.blackhole-cover .cover-title{color:#f5e9ff;text-shadow:0 2px 5px #140b22}.blackhole-cover::before,.blackhole-cover::after{display:none}
+.primary:disabled{cursor:not-allowed;opacity:.58;filter:grayscale(.12)}
+.journey-info{
+  padding:23px 19px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:22px;
+}
+.journey-info h2{margin:0 0 10px;color:#111;font-size:20px}
+.journey-info p{margin:0;color:#7b9290;font-size:12px;line-height:1.8}
+.journey-info small{display:block;margin-top:14px;font-size:11px;line-height:1.9;color:#90a09d}
+.primary{
+  align-self:flex-start;
+  padding:11px 20px;
+  border:0;
+  border-radius:7px;
+  background:linear-gradient(100deg,#f5604e,#ff9b47);
+  color:#fff;
+  font-weight:800;
+}
+
+.save-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:24px}
+.save-head h1{margin:0;font-size:36px;color:#111}
+.save-head p{font-size:12px;color:#7b9290;line-height:1.7}
+.back-button{
+  padding:8px 13px;
+  margin-bottom:13px;
+  border:1px solid #cde3dd;
+  border-radius:7px;
+  background:#fff;
+  color:#347976;
+  font-size:12px;
+  font-weight:700;
+}
+.new-save{
+  border:0;
+  border-radius:7px;
+  padding:11px 18px;
+  background:#f17661;
+  color:#fff;
+  font-weight:800;
+}
+.save-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.empty-save{
+  grid-column:1/-1;
+  padding:45px 20px;
+  border:1px dashed #bfded4;
+  border-radius:10px;
+  background:rgba(255,255,255,.8);
+  color:#7a9590;
+  text-align:center;
+  font-size:13px;
+}
+.save-card{
+  min-width:0;
+  min-height:176px;
+  padding:16px;
+  border:1px solid #d5e8e1;
+  border-radius:10px;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  box-shadow:0 7px 18px rgba(41,103,106,.07);
+}
+.save-card-head{display:flex;gap:10px;align-items:center}
+.save-avatar{
+  width:42px;
+  height:42px;
+  flex:none;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:#dcf4ea;
+  font-size:24px;
+}
+.save-card h3{margin:0;font-size:16px;overflow-wrap:anywhere}
+.save-card small{display:block;margin-top:5px;font-size:10px;color:#8ca19b;overflow-wrap:anywhere}
+.save-card p{margin:15px 0 0;color:#79928b;font-size:11px;line-height:1.6}
+.save-card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:15px}
+.save-card-time{font-size:10px;color:#df8b81}
+.save-actions{display:flex;gap:7px;flex-wrap:wrap}
+.enter-save,.delete-save{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  border-radius:6px;
+  padding:8px 13px;
+  min-height:34px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.enter-save{background:#12ac91;color:#fff}
+.delete-save{background:#fff0ed;color:#d67166}
+
+.modal-mask{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  padding:16px;
+  display:grid;
+  place-items:center;
+  background:rgba(19,65,61,.32);
+  backdrop-filter:blur(3px);
+}
+.save-modal{
+  width:min(430px,100%);
+  padding:22px;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 25px 65px rgba(0,0,0,.22);
+}
+.save-modal h2{margin:0 0 7px;font-size:21px}
+.save-modal p{margin:0 0 16px;font-size:12px;line-height:1.7;color:#84978f}
+.save-modal label{display:block;margin:11px 0 6px;font-size:12px;font-weight:700}
+.save-modal input{
+  width:100%;
+  height:38px;
+  padding:0 11px;
+  border:1px solid #cee3d9;
+  border-radius:7px;
+}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}
+.modal-actions button{padding:9px 16px;border:0;border-radius:7px;font-weight:700}
+.modal-cancel{background:#edf6f1;color:#537f70}
+.modal-confirm{background:#f47b5d;color:#fff}
+
+.page-shell{max-width:1680px;margin:auto;padding:30px 28px 55px}
+.hero{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  padding:8px 15px 25px;
+}
+.eyebrow{margin:0 0 15px;color:#f67869;font-size:12px;font-weight:800;letter-spacing:2px}
+.hero h1{margin:0;color:#16595b;font-size:clamp(34px,4vw,64px);letter-spacing:3px;line-height:1.35}
+.hero h1 span{color:#0b9c8f}
+.subtitle{margin:15px 0 0;color:#6c9390;font-size:14px;line-height:1.8}
+.plan-switcher{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;flex:none;max-width:520px}
+.plan-button{
+  padding:11px 15px;
+  border:1px solid #d1e5df;
+  border-radius:99px;
+  background:#fff;
+  color:#078a85;
+  font-size:12px;
+  font-weight:800;
+}
+.plan-button.active{
+  border-color:#fa7b4b;
+  background:linear-gradient(100deg,#fb614f,#ff9a45);
+  color:#fff;
+  box-shadow:0 5px 13px rgba(236,124,77,.2);
+}
+.plan-summary{width:100%;margin-top:3px;text-align:right;font-size:11px;color:#76948d}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  margin:0 0 24px;
+  padding:16px 10px;
+  border:1px solid #deede4;
+  border-radius:15px;
+  background:rgba(255,255,255,.94);
+  box-shadow:var(--shadow);
+}
+.stats>div{min-width:0;padding:0 20px;border-right:1px solid #d7e7de}
+.stats>div:last-child{border-right:0}
+.stats span{display:block;margin-bottom:8px;color:#7c9b94;font-size:12px}
+.stats strong{display:block;color:#078984;font-size:25px;overflow-wrap:anywhere}
+.stats .highlight{
+  margin:-9px 5px;
+  padding-top:9px;
+  padding-bottom:9px;
+  border:0;
+  border-radius:12px;
+  background:linear-gradient(110deg,#fff1bd,#ffedc7);
+}
+
+.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:stretch}
+.board-wrap{
+  min-width:0;
+  padding:8px;
+  border:1px solid #d5e9df;
+  border-radius:7px;
+  background:rgba(255,255,255,.88);
+  box-shadow:var(--shadow);
+}
+.board-heading{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-bottom:1px solid #94dfe8;
+  background:#b9efff;
+  color:#f47559;
+  font-size:23px;
+  font-weight:900;
+}
+.board-heading em{font-style:normal;color:#078e8c}
+.board-heading .cloud{margin-left:auto;font-size:26px;color:#fff}
+.board-scroll{overflow-x:auto}
+.board{
+  display:grid;
+  gap:9px;
+  padding:16px;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 1px,transparent 1px,transparent 28px),#bfeffb;
+}
+.board-row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;min-height:101px}
+.board-row:nth-child(even){direction:rtl}
+.cell{
+  direction:ltr;
+  position:relative;
+  min-width:0;
+  min-height:96px;
+  padding:15px 4px 8px;
+  border:3px solid rgba(87,154,152,.34);
+  border-radius:11px;
+  background:#e1f6e9;
+  color:#111;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 0 rgba(77,147,159,.23);
+  transition:transform .15s;
+}
+.cell:hover{transform:translateY(-2px)}
+.cell:nth-child(3n){background:#fff1e6}
+.cell:nth-child(4n){background:#fff8cc}
+.cell:nth-child(5n){background:#e1f1fb}
+.cell.event{border-color:#ed9993}
+.cell.visited{filter:saturate(.7)}
+.cell.current{border-color:#f16b5d;box-shadow:0 0 0 3px #ffe3d5,0 6px 0 rgba(77,147,159,.23)}
+.cell-no{position:absolute;top:5px;left:8px;color:#7ba2a0;font-size:10px}
+.cell h3{margin:8px 0 5px;font-size:16px}
+.cell p{margin:0;color:#76928c;font-size:11px}
+.token{position:absolute;top:3px;right:7px;font-size:23px}
+.legend{display:flex;gap:20px;padding:14px 16px 8px;color:#86a098;font-size:11px}
+.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:50%;background:#d5ece0}
+.legend .event-dot{background:#ed9b97}
+.legend .current-dot{background:#f2675e}
+
+.control-panel{
+  min-width:0;
+  padding:15px;
+  border:1px solid #efdfaf;
+  border-radius:9px;
+  background:#fffbdc;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.mascot{
+  height:170px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:radial-gradient(circle at center,#fff3bd 0,#fff3bd 57%,transparent 58%);
+}
+/* 只缩小游戏右侧的 pig.png，首页封面保持铺满。 */
+.mascot .pig-image{
+  display:block;
+  flex:none;
+  width:50%;
+  height:85px;
+  max-width:145px;
+  max-height:85px;
+  object-fit:contain;
+}
+.dice-button{
+  display:block;
+  width:112px;
+  height:112px;
+  padding:0;
+  margin:4px auto 16px;
+  border:0;
+  background:transparent;
+  perspective:600px;
+  filter:drop-shadow(0 9px 8px rgba(180,81,62,.18));
+}
+.dice-cube{
+  display:block;
+  width:76px;
+  height:76px;
+  position:relative;
+  margin:18px auto;
+  transform-style:preserve-3d;
+}
+.dice-face{
+  position:absolute;
+  inset:0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
+  gap:3px;
+  padding:10px;
+  border:4px solid #fff;
+  border-radius:15px;
+  background:linear-gradient(145deg,#ff6e60,#ed414d 60%,#cf3040);
+  box-shadow:inset 2px 2px 5px rgba(255,255,255,.25),inset -3px -4px 6px rgba(120,10,30,.2);
+  backface-visibility:hidden;
+}
+.dice-face.front{transform:translateZ(38px)}
+.dice-face.back{transform:rotateY(180deg) translateZ(38px)}
+.dice-face.right{transform:rotateY(90deg) translateZ(38px)}
+.dice-face.left{transform:rotateY(-90deg) translateZ(38px)}
+.dice-face.top{transform:rotateX(90deg) translateZ(38px)}
+.dice-face.bottom{transform:rotateX(-90deg) translateZ(38px)}
+.pip{width:12px;height:12px;border-radius:50%;align-self:center;justify-self:center;background:#fff8dc;opacity:0;box-shadow:0 1px 2px rgba(90,0,0,.15)}
+.pip.active{opacity:1}
+.dice-cube.rolling{animation:diceRoll .9s ease-in-out}
+@keyframes diceRoll{
+  0%{transform:translateY(0) rotateX(0) rotateY(0)}
+  35%{transform:translateY(-24px) rotateX(260deg) rotateY(220deg)}
+  70%{transform:translateY(-6px) rotateX(550deg) rotateY(540deg)}
+  100%{transform:translateY(0) rotateX(720deg) rotateY(720deg)}
+}
+.status-card{padding:12px;border:1px solid #dce6d5;border-radius:8px;background:#fff}
+.status-card strong{color:#078d83;font-size:14px}
+.status-card p{margin:7px 0 0;color:#7c9690;font-size:11px;line-height:1.8}
+.hint{margin:14px 0;text-align:center;color:#337876;font-size:11px;font-weight:800}
+.panel-section{padding:12px 0;border-top:1px solid #e8ddba}
+.panel-section label,.section-title{display:block;margin-bottom:8px;font-size:12px;font-weight:800;color:#317774}
+.inline-form{display:flex;gap:7px}
+.inline-form input,.adjust-grid input{
+  min-width:0;
+  height:37px;
+  padding:0 10px;
+  border:1px solid #cbded4;
+  border-radius:8px;
+  background:#fff;
+  color:#52726b;
+}
+.inline-form input{flex:1}
+.inline-form button{flex:none;border:0;border-radius:8px;padding:0 12px;background:#11ae93;color:#fff;font-size:12px;font-weight:800}
+.panel-section small{display:block;margin-top:7px;font-size:10px;color:#8d9e8d}
+.section-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.section-title-row small{margin:0 0 8px;font-size:9px;font-weight:400}
+.adjust-grid{display:grid;grid-template-columns:90px minmax(0,1fr);gap:7px}
+.adjust-grid input{width:100%}
+.outline-button{width:100%;margin-top:8px;padding:8px;border:1px solid #a8ddca;border-radius:7px;background:#daf7eb;color:#078980;font-size:12px;font-weight:800}
+.save-box{padding-top:11px;border-top:1px solid #e8ddba;font-size:12px;color:#537e74}
+.save-box summary{cursor:pointer;font-weight:700}
+.progress-actions{display:flex;gap:7px;padding-top:9px}
+.progress-actions button,.panel-footer button{border:1px solid #d7e8db;border-radius:6px;padding:6px 9px;background:#fff;color:#4a847a;font-size:11px}
+.primary-button,.secondary-button{width:100%;border:0;border-radius:7px;padding:11px;font-size:13px;font-weight:800}
+.primary-button{margin-top:14px;background:linear-gradient(100deg,#f6bd4b,#f77e55);color:#fff;box-shadow:0 4px 0 #dd8955}
+.secondary-button{margin-top:11px;background:#ffe5dd;color:#e07967}
+.panel-footer{display:flex;justify-content:space-between;gap:8px;margin-top:12px}
+.bottom-info{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.bottom-info article{padding:20px 23px;border:1px solid #d9eae1;border-radius:11px;background:rgba(255,255,255,.94);min-height:160px}
+.card-kicker{margin:0 0 8px;color:#f07667;font-size:11px;font-weight:800}
+.bottom-info h2{margin:0 0 13px;color:#2b6a66;font-size:19px}
+.progress{height:8px;overflow:hidden;border-radius:99px;background:#e4f1e9}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#11b79a,#f5c35e);border-radius:99px;transition:width .25s}
+.muted{margin:13px 0 0;color:#88a095;font-size:11px}
+.record-list{max-height:190px;overflow:auto;margin:0;padding-left:21px;color:#82998d;font-size:12px;line-height:1.9}
+
+body.bingo-mode .topbar{background:#1c1912;border-color:#4a3c22;color:#f8edcf}
+body.bingo-mode .brand-name{color:#fff1c9}
+body.bingo-mode .service{color:#c9b66f}
+body.travel-mode .topbar{background:rgba(255,246,249,.96);border-color:#f0cbd7}
+body.travel-mode .brand-name{color:#14595b}
+body.travel-mode .service{color:#0d9b8f}
+.travel-page{min-height:calc(100vh - 76px);padding:20px clamp(16px,7vw,110px) 80px;background:linear-gradient(135deg,#fff0f5 0%,#fff8fb 56%,#fde6ef 100%);color:#164d4f}
+.travel-content{max-width:1250px;margin:auto}
+.travel-top{display:flex;justify-content:space-between;align-items:center;gap:15px;padding-bottom:15px;border-bottom:1px solid #efcad6}
+.travel-back,.travel-link{padding:8px 14px;border:1px solid #e8bdca;border-radius:999px;background:rgba(255,255,255,.7);color:#287775;font-size:12px;font-weight:800}
+.travel-top-actions{display:flex;gap:8px}
+.travel-heading{padding:84px 0 40px}
+.travel-heading-kicker{margin:0 0 18px;color:#d36b7d;font-size:12px;font-weight:900;letter-spacing:1.5px}
+.travel-heading h1{margin:0;color:#124f52;font-size:clamp(37px,5vw,62px);letter-spacing:1px}
+.travel-heading p{max-width:720px;margin:14px 0 0;color:#718f8d;font-size:14px;line-height:1.8}
+.travel-map-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:22px}
+.travel-map-card{position:relative;min-height:330px;padding:0;overflow:hidden;border:1px solid #edc3cf;border-radius:24px;background:#fff8fa;color:#174f51;text-align:left;box-shadow:0 14px 32px rgba(184,102,123,.14);transition:transform .18s,box-shadow .18s}
+.travel-map-card:hover:not(:disabled){transform:translateY(-4px);box-shadow:0 20px 40px rgba(184,102,123,.2)}
+.travel-map-card.active{color:#fff;background:#194f50;border-color:#194f50}
+.travel-map-card.locked{background:#fff8fa;color:#76908e;cursor:not-allowed}
+.travel-map-art{height:170px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,#f8c4d2,#ffe8ef)}
+.travel-map-art img{width:100%;height:100%;display:block;object-fit:cover;opacity:1;filter:none;mix-blend-mode:normal}
+.travel-map-card.active .travel-map-art{background:linear-gradient(135deg,#f49bad,#d95b78)}
+.travel-map-art span{font-size:76px;filter:drop-shadow(0 7px 5px rgba(86,40,53,.16))}
+.travel-map-info{padding:20px 22px}
+.travel-map-code{margin:0 0 9px;font-size:10px;font-weight:900;letter-spacing:1.4px;color:#dc7185}
+.travel-map-card.active .travel-map-code{color:#ffd2dc}
+.travel-map-info h2{margin:0;color:inherit;font-size:29px}
+.travel-map-info p{margin:12px 0 0;color:inherit;opacity:.78;font-size:12px;line-height:1.7}
+.travel-map-arrow{position:absolute;right:22px;bottom:18px;font-size:25px}
+.travel-map-card.locked .travel-map-art{background:linear-gradient(135deg,#fff1f5,#fbe4eb)}
+.travel-map-card.locked .travel-map-art span{opacity:.24;filter:none}
+.travel-status{display:inline-block;margin-top:12px;padding:8px 13px;border-radius:99px;background:#ffe4ec;color:#c75d73;font-size:11px;font-weight:800}
+.travel-target-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.travel-target-card{min-height:335px;padding:24px 25px;border:1px solid #edc3cf;border-radius:24px;background:#fffafd;color:#174f51;text-align:left;box-shadow:0 14px 32px rgba(184,102,123,.11);transition:transform .18s,box-shadow .18s}
+.travel-target-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(184,102,123,.18)}
+.travel-target-card>small{display:block;color:#9a8d79;font-size:11px}
+.travel-target-card strong{display:flex;align-items:baseline;gap:5px;margin-top:25px;color:#174f51;font-size:78px;line-height:1}
+.travel-target-card strong em{font-size:18px;font-style:normal}
+.travel-target-card p{margin:14px 0;color:#81918b;font-size:12px}
+.travel-target-card .target-price{display:block;margin-top:43px;padding-top:17px;border-top:1px solid #f0dce2;color:#c75d73;font-size:30px;font-weight:900}
+.travel-target-card .target-price small{font-size:16px}
+.travel-target-card .target-start{display:block;margin-top:13px;color:#245b5a;font-size:12px;font-weight:900}
+.travel-footnote{margin:35px 0 0;color:#83938d;font-size:12px}
+@media(max-width:900px){.travel-target-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.travel-card{margin:34px auto 0;max-width:760px;padding:36px 28px;border:1px solid #edc3cf;border-radius:16px;background:rgba(255,255,255,.86);box-shadow:0 16px 34px rgba(184,102,123,.12);text-align:center}
+.travel-card h1{margin:0;color:#14595b;font-size:38px}
+.travel-card p{margin:12px 0;color:#718f8d;font-size:13px;line-height:1.8}
+.travel-card .travel-status{display:inline-block;margin-top:14px;padding:10px 18px;border-radius:999px;background:#ffe4ec;color:#c75d73;font-size:12px;font-weight:800}
+.travel-run-page{min-height:calc(100vh - 76px);padding:0;background:#fff0f5;color:#5b3045}
+.travel-run-app{min-height:calc(100vh - 76px);display:grid;grid-template-columns:285px 1fr;grid-template-rows:74px 1fr;background:#fff0f5}
+.travel-run-sidebar{grid-row:1/3;padding:16px;background:linear-gradient(#4a2335,#301b28);border-right:1px solid #e3a8bb;overflow:auto;color:#ffe8f0}
+.travel-run-brand{display:flex;align-items:center;gap:10px;padding-bottom:20px;border-bottom:1px solid #774057}.travel-run-brand img{width:38px;height:38px;border-radius:10px;object-fit:cover}.travel-run-brand strong{display:block;font-size:18px}.travel-run-brand small{display:block;margin-top:3px;color:#e1a6ba;font-size:9px}
+.travel-run-base{position:relative;padding:20px 3px 12px}.travel-run-base h2{margin:0 0 7px;font-size:20px}.travel-run-base p{margin:0;color:#e3a7ba;font-size:12px}.travel-run-online{color:#ff9fc2!important}.travel-run-back{position:absolute;right:0;top:18px;padding:7px 9px;border:1px solid #a7607d;border-radius:999px;background:#4a2737;color:#ffd9e5;font-size:11px}.travel-run-label{margin:19px 3px 8px;color:#dfa5b9;font-size:11px}.travel-run-round{display:flex;gap:10px;align-items:center;padding:11px;border:1px solid #975872;border-radius:8px;background:#492536}.travel-run-round img{width:65px;height:65px;object-fit:cover;border-radius:6px}.travel-run-round strong,.travel-run-round small{display:block}.travel-run-round small{color:#dfa5b9;font-size:10px}.travel-run-places{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.travel-run-place{padding:8px 2px;border:1px solid #81506a;border-radius:5px;background:#482536;color:#ffd7e5;font-size:11px}.travel-run-place.active{background:#a84472;border-color:#ff9fc5}.travel-run-income{padding:10px;border:1px solid #89506b;border-radius:6px;background:#452536}.travel-run-income label{display:block;margin:6px 0;color:#dfa5b9;font-size:11px}.travel-run-income-row{display:flex;gap:5px}.travel-run-income input{width:100%;padding:8px;border:1px solid #9a5b77;background:#291620;color:#ffe8f0}.travel-run-income button{border:0;border-radius:4px;background:#db6d9b;color:#fff}.travel-run-result{width:100%;margin-top:10px;padding:10px;border:1px solid #ff9bc1;border-radius:5px;background:#a13d70;color:#fff;font-weight:800}.travel-run-fail{background:#59303f}.travel-run-note{color:#dfa5b9;font-size:11px;line-height:1.8}.travel-run-foot{display:flex;gap:7px}.travel-run-foot button{flex:1;padding:8px;border:1px solid #81506a;border-radius:5px;background:#482536;color:#ffd7e5;font-size:11px}.travel-run-top{grid-column:2;display:flex;align-items:center;background:#fff8fb;border-bottom:1px solid #f1cad7}.travel-run-stat{min-width:190px;padding:13px 22px;border-right:1px solid #f1d3dc}.travel-run-stat span{display:block;color:#bd8398;font-size:11px}.travel-run-stat strong{font-size:24px;color:#a13d70}.travel-run-top-space{flex:1}.travel-run-top-title{padding:20px;color:#bd8398;font-size:12px}.travel-run-map-area{position:relative;grid-column:2;overflow:auto;cursor:grab;background:#fff0f5;scrollbar-gutter:stable}.travel-run-map-canvas{position:relative;width:100%;height:100%;min-height:600px;aspect-ratio:1178/900;transform-origin:0 0}.travel-run-zoom-controls{position:absolute;z-index:20;right:14px;top:14px;display:flex;flex-direction:column;gap:5px}.travel-run-zoom-controls button{width:42px;height:34px;padding:0;border:1px solid #df8da8;border-radius:6px;background:#fff0f0e8;color:#853c5c;font-size:17px;font-weight:900;box-shadow:0 3px 8px rgba(120,47,75,.13)}.travel-run-zoom-controls .travel-run-zoom-label{font-size:10px}.travel-run-zoom-controls button:hover{background:#ffd7e3}.travel-run-map-image{width:100%;height:auto;min-height:600px;display:block;object-fit:contain;opacity:1;filter:none;mix-blend-mode:normal;background:transparent}.travel-run-zone{position:absolute;padding:7px 10px;border:1px solid #df8da8;border-radius:6px;background:#fff0f0e8;color:#853c5c;font-size:12px;font-weight:800}.travel-run-zone b{margin-left:5px;color:#bd5d7a}.travel-run-zone.selected{border:2px solid #c65b7b;background:#ffd7e3;animation:travelRise .4s forwards}@keyframes travelRise{to{transform:translateY(-8px) scale(1.08)}}.run-z1{left:12%;top:13%}.run-z2{left:12%;top:38%}.run-z3{left:39%;top:3%}.run-z4{left:59%;top:17%}.run-z5{left:76%;top:4%}.run-z6{left:88%;top:21%}.run-z7{left:70%;top:45%}.run-z8{left:26%;top:87%}.travel-run-modal{display:none;position:fixed;inset:0;z-index:140;place-items:center;background:#3d152855}.travel-run-modal.show{display:grid}.travel-run-modal-box{width:min(680px,90vw);max-height:82vh;overflow:auto;padding:28px;border-radius:20px;background:#fff1f6;color:#5c3044;box-shadow:0 20px 60px #7b315433}.travel-run-modal-box h2{margin:0 0 13px;color:#7b3154}.travel-run-modal-box button{width:100%;padding:12px;border:0;border-radius:10px;background:#a13d70;color:#fff}.travel-run-logs{padding:0;list-style:none}.travel-run-logs li{padding:9px 0;border-bottom:1px solid #edc3cf}
+.blackhole-page{min-height:calc(100vh - 76px);background:#080b1b;color:#d8e8ff}
+.blackhole-target-page{background:linear-gradient(135deg,#fff0f5 0%,#fff8fb 56%,#fde6ef 100%);color:#164d4f}.blackhole-target-card{background:#fffafd;color:#174f51}.blackhole-target-card strong{font-size:64px}.blackhole-target-card strong em{font-size:17px;font-style:normal}.blackhole-target-card .target-price{color:#c75d73}.blackhole-target-card .target-start{color:#245b5a}.blackhole-result-box{text-align:center;width:min(560px,90vw);padding:34px 38px}.blackhole-result-icon{display:grid;place-items:center;width:56px;height:56px;margin:0 auto 14px;border:1px solid #59d8d2;border-radius:50%;background:#173c4a;color:#61e6df;font-size:30px;font-weight:900}.blackhole-result-box h3{font-size:22px}.blackhole-result-box p{font-size:13px;line-height:1.9}.blackhole-result-detail{margin:18px 0;padding:13px 15px;border:1px solid #35477c;border-radius:7px;background:#0e1733;color:#c9d8fa;font-size:12px}.blackhole-result-box button{width:100%;padding:12px;border:0;border-radius:7px;background:#57d4d3;color:#071524;font-size:12px;font-weight:900}.blackhole-role-page{min-height:calc(100vh - 76px);display:grid;place-items:center;padding:35px 18px;background:linear-gradient(135deg,#080b1b,#141331);color:#e8ecff}.blackhole-role-shell{width:min(760px,100%);padding:32px;border:1px solid #2b3764;border-radius:16px;background:#0d1230;box-shadow:0 22px 65px #02030e99}.blackhole-role-back{padding:8px 13px;border:1px solid #3c4c7b;border-radius:6px;background:#111a39;color:#afbfdf;font-size:11px}.blackhole-role-kicker{margin:33px 0 9px;color:#5eddda;font-size:10px;font-weight:900;letter-spacing:1.6px}.blackhole-role-shell h1{margin:0;color:#f5f2ff;font-size:clamp(28px,4vw,42px)}.blackhole-role-shell>p{margin:12px 0 25px;color:#8d9bc3;font-size:12px;line-height:1.8}.blackhole-role-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.blackhole-role-option{padding:22px 18px;border:1px solid #344170;border-radius:9px;background:#111a39;color:#bbc9e9;text-align:left;transition:.16s}.blackhole-role-option:hover{border-color:#ad70f1;background:#26174c;transform:translateY(-2px)}.blackhole-role-option strong{display:block;color:#f2eaff;font-size:18px}.blackhole-role-option small{display:block;min-height:38px;margin-top:9px;color:#8798c2;font-size:11px;line-height:1.7}.blackhole-role-option span{display:block;margin-top:18px;color:#5eddda;font-size:11px;font-weight:900}@media(max-width:650px){.blackhole-role-options{grid-template-columns:1fr}}
+.blackhole-app{min-height:calc(100vh - 76px);display:grid;grid-template-columns:285px minmax(0,1fr);background:#080b1b}
+.blackhole-sidebar{padding:15px 13px;background:linear-gradient(180deg,#0f1533,#080b1e);border-right:1px solid #252b56;overflow:auto}
+.blackhole-brand{display:flex;align-items:center;gap:10px;padding:4px 4px 17px;border-bottom:1px solid #242b52}.blackhole-brand-orb{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle,#05050b 0 28%,#c970ff 31% 36%,#37145b 45%,#11132c 67%);box-shadow:0 0 14px #b665ff}.blackhole-brand strong{display:block;color:#fff;font-size:16px}.blackhole-brand small{display:block;margin-top:3px;color:#8292c6;font-size:9px}
+.blackhole-back{width:100%;margin-top:14px;padding:8px 10px;border:1px solid #39416d;border-radius:7px;background:#101733;color:#b9c9ef;font-size:11px;text-align:left}
+.blackhole-command{margin-top:19px}.blackhole-kicker{margin:0 0 7px;color:#58d8d7;font-size:10px;font-weight:900;letter-spacing:1.4px}.blackhole-command h2{margin:0;color:#f0f5ff;font-size:24px}.blackhole-command p{margin:5px 0;color:#7181b4;font-size:10px}.blackhole-role-switch{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:16px}.blackhole-role-switch button{padding:9px 5px;border:1px solid #30395f;border-radius:6px;background:#101832;color:#8293c5;font-size:11px;font-weight:800}.blackhole-role-switch button.active{border-color:#ad6cf4;background:#4b2d78;color:#fff;box-shadow:0 0 0 1px #ae72f5 inset}.blackhole-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:15px 0}.blackhole-stat{padding:10px;border:1px solid #222b51;border-radius:6px;background:#101733}.blackhole-stat span{display:block;color:#6f82b8;font-size:9px}.blackhole-stat strong{display:block;margin-top:4px;color:#68e3df;font-size:20px}.blackhole-panel{margin-top:12px;padding:12px;border:1px solid #252e57;border-radius:8px;background:#101630}.blackhole-panel h3{display:flex;justify-content:space-between;gap:5px;margin:0 0 8px;color:#f3f6ff;font-size:13px}.blackhole-panel h3 span{color:#68e3df;font-size:11px}.blackhole-help{margin:0 0 10px;color:#8392b8;font-size:10px;line-height:1.7}.blackhole-place-list{display:grid;grid-template-columns:1fr 1fr;gap:5px}.blackhole-place-choice{padding:8px 5px;border:1px solid #28335d;border-radius:5px;background:#0d142a;color:#aebde3;font-size:10px;text-align:left}.blackhole-place-choice.selected{border-color:#b575f1;background:#4a2c76;color:#fff;box-shadow:0 0 0 1px #b675f1 inset}.blackhole-place-choice.sealed{border-color:#ac6cf1;background:#42265e;color:#efcfff}.blackhole-confirm-button,.blackhole-submit-button{width:100%;margin-top:11px;padding:10px;border:0;border-radius:6px;background:#57d4d3;color:#071524;font-size:11px;font-weight:900}.blackhole-confirm-button:disabled{opacity:.38;cursor:not-allowed}.blackhole-submit-button{background:#57d4d3}.blackhole-worker-input{width:100%;box-sizing:border-box;margin-top:8px;padding:9px;border:1px solid #3c4b78;border-radius:5px;background:#080f23;color:#fff;font-size:12px}.blackhole-worker-tip{margin:8px 0 0;color:#a881c4;font-size:10px;line-height:1.6}.blackhole-next-button{width:100%;margin-top:10px;padding:9px;border:1px solid #6a4a94;border-radius:6px;background:#241841;color:#dab8fc;font-size:10px}.blackhole-next-button:disabled{opacity:.38;cursor:not-allowed}.blackhole-main{min-width:0;display:grid;grid-template-rows:64px minmax(520px,1fr);background:#0b1024}.blackhole-top{display:flex;align-items:center;gap:20px;padding:0 20px;border-bottom:1px solid #222a4e;background:#0c1229}.blackhole-top-title{flex:1}.blackhole-top-title small{display:block;color:#5dd7d3;font-size:9px;letter-spacing:1px}.blackhole-top-title strong{display:block;margin-top:3px;color:#e8efff;font-size:16px}.blackhole-phase{padding:8px 11px;border:1px solid #34406b;border-radius:5px;color:#96a7d3;font-size:10px}.blackhole-map-area{position:relative;min-height:0;overflow:auto;cursor:grab;background:#070a18;scrollbar-gutter:stable}.blackhole-map-canvas{position:relative;width:100%;height:100%;min-width:760px;min-height:600px;aspect-ratio:1178/900;transform-origin:0 0;overflow:visible}.blackhole-map-canvas:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(5,8,20,.15),rgba(5,8,20,.05));mix-blend-mode:multiply}.blackhole-map-image{width:100%;height:auto;min-height:600px;display:block;object-fit:contain;filter:brightness(.42) contrast(1.08) saturate(.78);opacity:.92;background:transparent}.blackhole-zoom-controls{position:absolute;z-index:20;right:14px;top:14px;display:flex;flex-direction:column;gap:5px}.blackhole-zoom-controls button{width:42px;height:34px;padding:0;border:1px solid #365080;border-radius:6px;background:#102044e8;color:#adc3ea;font-size:17px;font-weight:900;box-shadow:0 3px 8px #02051488}.blackhole-zoom-controls .blackhole-zoom-label{font-size:10px}.blackhole-zoom-controls button:hover{background:#56327ce8;color:#fff}.blackhole-zone{position:absolute;z-index:2;min-width:70px;padding:7px 8px;border:1px solid #365080;border-radius:7px;background:#102044e8;color:#adc3ea;font-size:10px;text-align:left;box-shadow:0 4px 16px #02051488;transition:.16s}.blackhole-zone strong{display:block;color:inherit;font-size:11px}.blackhole-zone small{display:block;margin-top:3px;color:#79d8d6;font-size:8px}.blackhole-zone-gif{position:absolute;left:50%;bottom:calc(100% + 5px);width:44px;height:44px;transform:translateX(-50%);object-fit:contain;pointer-events:none;filter:drop-shadow(0 3px 7px rgba(0,0,0,.5))}.blackhole-zone.sealed{border-color:#ba70f6;background:#56327ce8;color:#f2d5ff;box-shadow:0 0 18px #a757eb99}.blackhole-zone.selected{border-color:#5ce6e0;background:#1a6c7be8;color:#fff;box-shadow:0 0 17px #4cd8db99}.blackhole-zone.counted{border-color:#61dfb0;background:#1f7259e8}.blackhole-zone.failed{border-color:#e18a9f;background:#69314de8}.bh-z1{left:12%;top:13%}.bh-z2{left:12%;top:38%}.bh-z3{left:39%;top:3%}.bh-z4{left:59%;top:17%}.bh-z5{left:76%;top:4%}.bh-z6{left:88%;top:21%}.bh-z7{left:70%;top:45%}.bh-z8{left:26%;top:87%}.blackhole-map-hint{position:absolute;z-index:3;left:15px;bottom:12px;padding:7px 10px;border:1px solid #242f59;border-radius:5px;background:#0b1330dd;color:#7185bb;font-size:9px}.blackhole-records{margin-top:12px;padding:12px;border:1px solid #252e57;border-radius:8px;background:#101630;overflow:auto;max-height:260px}.blackhole-records h3{margin:0 0 10px;color:#e9efff;font-size:13px}.blackhole-record-list{display:flex;flex-direction:column;gap:7px}.blackhole-record{min-width:0;padding:8px 10px;border:1px solid #29335d;border-radius:6px;background:#101a35;color:#9fb0d6;font-size:10px}.blackhole-record b{color:#edf3ff}.blackhole-record small{display:block;margin-top:4px;color:#6fd7d1}.blackhole-record.sealed{border-color:#9e63d6;background:#2b1d4b}.blackhole-record.not-counted{color:#d8a7e8}.blackhole-record.counted{border-color:#4bb995;background:#123d3c}.blackhole-modal{display:none;position:fixed;inset:0;z-index:160;place-items:center;background:#030511b8}.blackhole-modal.show{display:grid}.blackhole-modal-box{width:min(430px,90vw);padding:24px;border:1px solid #5c4a91;border-radius:12px;background:#111836;color:#dce7ff;box-shadow:0 20px 70px #0009}.blackhole-modal-box h3{margin:0;color:#f3eaff;font-size:18px}.blackhole-modal-box p{margin:11px 0;color:#9cacd2;font-size:11px;line-height:1.7}.blackhole-modal-list{display:flex;flex-wrap:wrap;gap:5px;margin:13px 0}.blackhole-modal-list span{padding:5px 8px;border:1px solid #634485;border-radius:4px;background:#261b43;color:#dabaf8;font-size:10px}.blackhole-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.blackhole-modal-actions button{padding:9px 14px;border:1px solid #3a4a75;border-radius:5px;background:#131e3d;color:#b9c8e9;font-size:11px}.blackhole-modal-actions button.primary{border:0;background:#57d4d3;color:#071524}
+@media(max-width:900px){.blackhole-app{grid-template-columns:1fr}.blackhole-sidebar{border-right:0;border-bottom:1px solid #252b56}.blackhole-main{grid-template-rows:64px 520px}.blackhole-hero{grid-template-columns:1fr}}
+@media(max-width:900px){.travel-run-app{grid-template-columns:1fr;grid-template-rows:auto auto 1fr}.travel-run-sidebar{grid-row:auto}.travel-run-top,.travel-run-map-area{grid-column:1}.travel-run-top{overflow:auto}.travel-run-map-canvas{min-width:780px}}
+.bingo-page{
+  min-height:calc(100vh - 76px);
+  padding:24px clamp(12px,6vw,100px) 65px;
+  background:radial-gradient(circle at 20% 10%,#3c3016,#1f1a11 38%,#12120f 78%);
+  color:#f6eedb;
+}
+.bingo-content{max-width:1120px;margin:auto}
+.bingo-top{display:flex;justify-content:space-between;align-items:center;gap:15px;padding-bottom:15px;border-bottom:1px solid rgba(220,178,72,.25)}
+.bingo-back{padding:8px 14px;border:1px solid #82662c;border-radius:7px;background:#292215;color:#f4dda2;font-weight:800;font-size:12px}
+.bingo-top span{font-size:11px;color:#c5b383}
+.bingo-heading{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:25px 0}
+.bingo-heading h1{margin:0;color:#fff7e5;font-size:35px}
+.bingo-heading p{margin:9px 0 0;color:#ad9f88;font-size:12px;line-height:1.8}
+.bingo-kicker{margin:0 0 7px!important;font-size:10px!important;letter-spacing:1.5px;color:#d4ad45!important}
+.bingo-picker{display:inline-flex;margin-top:13px;padding:8px 12px;border:1px solid #8a6b2b;border-radius:6px;background:#2b2418;color:#f1d486;font-size:11px;font-weight:800;cursor:pointer}
+.bingo-picker input{display:none}
+.bingo-preview{flex:none;display:grid;grid-template-columns:repeat(6,24px);grid-template-rows:repeat(4,24px);gap:2px;padding:6px;border:1px solid #715a28;border-radius:7px;background:#181b1a}
+.bingo-preview>span{display:block;width:24px;height:24px;overflow:hidden;border:1px solid #806126;background:#24201a}
+.bingo-preview img{width:100%;height:100%;display:block;object-fit:contain}
+.bingo-rules{padding:20px 17px;border:1px solid #6b5627;border-radius:9px;background:rgba(36,31,20,.9);text-align:center}
+.bingo-rules h2{margin:0;color:#fff4d7;font-size:21px}
+.bingo-rules>p{color:#a79a80;font-size:11px}
+.rule-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:17px}
+.rule{padding:13px;border:1px solid #66542c;border-radius:7px;background:#2a261b;color:#f5eddb;text-align:left}
+.rule.active{border-color:#d5a935;background:#40351c;box-shadow:inset 0 0 0 1px #a77d20}
+.rule small{display:block;color:#d6b449;font-size:10px}
+.rule strong{display:block;margin:5px 0;color:#fff3c9;font-size:25px}
+.rule span{display:block;font-size:11px}
+.rule em{display:block;margin-top:9px;color:#a99b82;font-size:10px;font-style:normal}
+.start-bingo{margin-top:16px;padding:11px 34px;border:0;border-radius:6px;background:linear-gradient(100deg,#be8421,#f1c34b);color:#fff9e8;font-weight:800}
+.bingo-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.bingo-stats>div{padding:10px;border-top:1px solid rgba(216,178,73,.25)}
+.bingo-stats small{color:#9f937c;font-size:10px}
+.bingo-stats strong{display:block;margin-top:5px;color:#ffe7a4;font-size:18px}
+.bingo-main{display:grid;grid-template-columns:220px minmax(0,560px);justify-content:center;align-items:start;gap:15px;margin-top:15px}
+.candidate-panel{padding:12px;border:1px solid #6c5729;border-radius:9px;background:#282217}
+.candidate-panel h2{margin:0;color:#f9e9b9;font-size:16px}
+.candidate-panel p{color:#aa9e89;font-size:10px;line-height:1.8}
+.candidate-list{display:flex;flex-direction:column;gap:9px}
+.candidate{width:100%;padding:8px;border:1px solid #755e2d;border-radius:7px;background:#2e271b;color:#f5e6ba;text-align:left}
+.candidate.active{border-color:#e2b93f;background:#493719;box-shadow:inset 0 0 0 1px #b18428}
+.candidate-title{display:flex;justify-content:space-between;align-items:center;gap:5px;margin-bottom:7px;font-size:11px}
+.candidate-title em{color:#e6bf4b;font-size:9px;font-style:normal}
+.mini-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;padding:3px;border-radius:4px;background:#161918}
+.mini-grid>span{height:22px;min-width:0;overflow:hidden;border:1px solid #806126;background:#24201a}
+.mini-grid>span.marked{border-color:#ffe280;background:#8d6419}
+.mini-grid img{width:100%;height:100%;object-fit:contain;display:block}
+.bingo-board-main{min-width:0}
+.bingo-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));gap:3px;width:100%;aspect-ratio:7/8;padding:5px;border:1px solid #66552d;border-radius:7px;background:#101616}
+.bingo-cell{position:relative;min-width:0;min-height:0;padding:2px;border:1px solid #806126;border-radius:3px;background:#181818;overflow:hidden}
+.bingo-cell img{position:absolute;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);object-fit:contain;display:block;pointer-events:none}
+.bingo-cell small{position:absolute;left:3px;top:2px;z-index:1;color:#d1bd87;font-size:7px;pointer-events:none}
+.bingo-cell.marked{background:#80601d;border-color:#f2cd63;box-shadow:inset 0 0 0 2px #ffe99a}
+.bingo-cell.marked::after{content:"✓";position:absolute;right:4px;bottom:2px;z-index:2;color:#fff7cd;font-size:20px;text-shadow:0 1px 3px #241800;pointer-events:none}
+.bingo-cell.swap-selected{outline:3px solid #fff0a5;outline-offset:-3px;filter:brightness(1.2)}
+.bingo-actions{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px}
+.bingo-actions span{color:#a79a82;font-size:10px}
+.bingo-actions button{padding:8px 11px;border:1px solid #b28125;border-radius:5px;background:#9d6c15;color:#fff3ca;font-size:11px;font-weight:800}
+.swap-hint{margin:10px 0;color:#f3cf65;font-size:12px;font-weight:800;line-height:1.7}
+
+.gold-mask{background:rgba(5,5,3,.79)}
+.gold-dialog{width:min(470px,100%);padding:22px;border:1px solid #a47d2b;border-radius:10px;background:#282116;color:#fff2cb;box-shadow:0 20px 70px rgba(0,0,0,.45)}
+.gold-dialog h2{margin:0 0 9px;color:#ffe39a}
+.gold-dialog p{margin:9px 0;color:#b5a583;font-size:12px;line-height:1.8}
+.reward-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:17px}
+.reward-options button{padding:12px 8px;border:1px solid #8c6829;border-radius:6px;background:#352819;color:#f4dfaa;font-weight:800}
+.reward-options button.active{border-color:#e4bd4d;background:#a9771b;color:#fff7d7}
+.gold-confirm{width:100%;margin-top:14px;padding:11px;border:0;border-radius:6px;background:#fff3c9;color:#654719;font-weight:800}
+.gold-dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.gold-dialog-actions button{padding:10px;border:1px solid #8c6829;border-radius:6px;background:#352819;color:#f4dfaa;font-weight:800}
+.gold-dialog-actions button:last-child{background:#bd8b29;color:#fff7dc}
+
+.toast{position:fixed;left:50%;bottom:25px;z-index:120;max-width:calc(100% - 30px);padding:11px 18px;border-radius:99px;background:#194f50;color:#fff;font-size:12px;text-align:center;opacity:0;transform:translate(-50%,12px);pointer-events:none;transition:.2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:1150px){
+  .hero{align-items:flex-start;flex-direction:column}
+  .plan-switcher{justify-content:flex-start;max-width:none}
+  .plan-summary{text-align:left}
+  .hero h1{font-size:clamp(33px,5vw,55px)}
+  .game-layout{grid-template-columns:minmax(0,1fr) 290px}
+  .board{padding:10px}
+  .board-row{gap:6px}
+  .cell h3{font-size:14px}
+}
+@media(max-width:900px){
+  .journey-grid{grid-template-columns:1fr}
+  .save-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .game-layout{grid-template-columns:1fr}
+  .control-panel{max-width:none}
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 0}
+  .stats>div:nth-child(3){border-right:0}
+  .stats .highlight{margin:0 5px}
+  .bingo-main{grid-template-columns:180px minmax(0,1fr)}
+}
+@media(max-width:650px){
+  .topbar{height:68px;padding:0 13px}
+  .brand-name{font-size:17px}
+  .brand-en{font-size:9px}
+  .service{font-size:10px}
+  .flow-page,.page-shell{padding:22px 11px 40px}
+  .flow-head,.save-head{align-items:flex-start;flex-direction:column}
+  .flow-step{display:none}
+  .save-head h1{font-size:29px}
+  .save-grid{grid-template-columns:1fr}
+  .journey-card{grid-template-columns:1fr}
+  .journey-cover{min-height:220px}
+  .travel-page{padding:19px 10px 45px}.travel-card{padding:28px 18px}.travel-card h1{font-size:30px}
+  .journey-info{gap:20px}
+  .hero{padding:4px 5px 22px}
+  .hero h1{font-size:33px;letter-spacing:1px}
+  .subtitle{font-size:12px}
+  .plan-button{padding:9px 11px;font-size:10px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats>div{border-right:0;padding:0 13px}
+  .stats strong{font-size:21px}
+  .board-heading{font-size:17px}
+  .board{min-width:675px}
+  .legend{gap:12px;padding-left:8px;font-size:10px}
+  .bottom-info{grid-template-columns:1fr}
+  .bingo-page{padding:19px 10px 45px}
+  .bingo-heading{align-items:flex-start;flex-direction:column}
+  .bingo-heading h1{font-size:30px}
+  .rule-list{grid-template-columns:1fr}
+  .bingo-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bingo-main{grid-template-columns:1fr}
+  .candidate-panel{order:2}
+  .candidate-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .candidate{padding:5px}
+  .candidate-title{display:block;font-size:10px}
+  .candidate-title em{display:block;margin-top:3px;font-size:8px}
+  .mini-grid{gap:1px;padding:1px}
+  .mini-grid>span{height:13px}
+}
+ .blackhole-start-button{width:100%;margin-top:11px;padding:10px;border:1px solid #5ce6e0;border-radius:6px;background:#173f59;color:#8ff5ed;font-size:11px;font-weight:900}
+.blackhole-start-button:disabled{opacity:.38;cursor:not-allowed}
+.blackhole-zone-gif{width:88px;height:88px}
+.blackhole-zone-gif{top:calc(100% + 5px);bottom:auto}
+.blackhole-travel-gif{position:absolute;z-index:12;width:88px;height:88px;object-fit:contain;pointer-events:none;transform:translate(-50%,-50%);filter:drop-shadow(0 3px 7px rgba(0,0,0,.5));will-change:left,top,transform}
+.blackhole-map-canvas:after{display:none}
+.blackhole-map-image{filter:none;opacity:1}
+
+/* 航天黑洞：粉色主题 */
+body.blackhole-mode .topbar{
+  background:rgba(255,246,250,.96);
+  border-color:#f0c4d5;
+  color:#6d3152;
+}
+body.blackhole-mode .brand-name{color:#7b3157}
+body.blackhole-mode .service{color:#c45b82}
+body.blackhole-mode .service-dot{background:#ef8fb2}
+/* 航天黑洞端口选择页沿用粉色主题 */
+.blackhole-role-page{background:linear-gradient(135deg,#fff0f5 0%,#fff8fb 56%,#fde6ef 100%);color:#6d3152}
+.blackhole-role-shell{border-color:#efbfd0;background:#fffafd;box-shadow:0 22px 65px rgba(125,49,84,.16)}
+.blackhole-role-back{border-color:#dda1b8;background:#fff0f5;color:#99466a}
+.blackhole-role-kicker{color:#c45b82}
+.blackhole-role-shell h1{color:#4f2038}
+.blackhole-role-shell>p{color:#a45b79}
+.blackhole-role-option{border-color:#e1b0c3;background:#fff4f8;color:#8e4a67}
+.blackhole-role-option:hover{border-color:#e56a9e;background:#ffe0eb}
+.blackhole-role-option strong{color:#6d3152}
+.blackhole-role-option small{color:#a45b79}
+.blackhole-role-option span{color:#c45b82}
+.blackhole-page{background:#fff0f6;color:#6d3152}
+.blackhole-app{background:#fff0f6}
+.blackhole-sidebar{background:linear-gradient(180deg,#6d3152,#3e2038);border-color:#d98eae;color:#ffe8f1}
+.blackhole-brand{border-color:#9b5778}
+.blackhole-brand-orb{background:radial-gradient(circle,#281322 0 28%,#ff8fbd 31% 36%,#8b315f 45%,#4b203d 67%);box-shadow:0 0 14px #ff8fbd}
+.blackhole-brand strong{color:#fff4f8}
+.blackhole-brand small{color:#f0b3c9}
+.blackhole-back{border-color:#b86b8d;background:#6b3452;color:#ffe2ed}
+.blackhole-kicker{color:#ff9fc3}
+.blackhole-command h2{color:#fff7fa}
+.blackhole-command p{color:#f0b0c7}
+.blackhole-role-switch button{border-color:#9b587a;background:#633049;color:#f0bfd1}
+.blackhole-role-switch button.active{border-color:#ff9fc7;background:#a74474;color:#fff;box-shadow:0 0 0 1px #ffacd0 inset}
+.blackhole-stat{border-color:#9b587a;background:#5c2b48}
+.blackhole-stat span{color:#efafc6}
+.blackhole-stat strong{color:#ff8fbd}
+.blackhole-panel{border-color:#a65e80;background:#542941}
+.blackhole-panel h3{color:#fff4f8}
+.blackhole-panel h3 span{color:#ff9fc3}
+.blackhole-help{color:#edb3c8}
+.blackhole-place-choice{border-color:#925070;background:#45233a;color:#efc1d2}
+.blackhole-place-choice.selected{border-color:#ff9fc7;background:#8d3e69;color:#fff;box-shadow:0 0 0 1px #ffabd0 inset}
+.blackhole-place-choice.sealed{border-color:#ff8fbd;background:#75345b;color:#ffe3ee}
+.blackhole-confirm-button,.blackhole-submit-button{background:#ff8fb8;color:#4b2038}
+.blackhole-worker-input{border-color:#a96384;background:#351a2c;color:#fff}
+.blackhole-worker-tip{color:#f2a9c5}
+.blackhole-next-button{border-color:#ba6b91;background:#49223b;color:#f7bfd5}
+.blackhole-main{background:#fff4f8}
+.blackhole-top{border-color:#efc7d7;background:#fff9fb}
+.blackhole-top-title small{color:#c45b82}
+.blackhole-top-title strong{color:#6d3152}
+.blackhole-phase{border-color:#dda1b8;color:#a65072;background:#fff0f5}
+.blackhole-map-area{background:#ffeaf3}
+.blackhole-map-canvas:after{background:linear-gradient(90deg,rgba(255,219,232,.15),rgba(255,240,246,.05))}
+.blackhole-zoom-controls button{border-color:#d889a8;background:#fff5f8e8;color:#99466a;box-shadow:0 3px 8px #8c3b5c22}
+.blackhole-zoom-controls button:hover{background:#ffd1e1;color:#6d3152}
+.blackhole-zone{border-color:#d889a8;background:#fff4f8e8;color:#99466a;box-shadow:0 4px 16px #8c3b5c22}
+.blackhole-zone small{color:#c45b82}
+.blackhole-zone.sealed{border-color:#e56a9e;background:#a74474e8;color:#ffe4ef;box-shadow:0 0 18px #d8569199}
+.blackhole-zone.selected{border-color:#ff8fb8;background:#d35b8de8;color:#fff;box-shadow:0 0 17px #e878a899}
+.blackhole-zone.counted{border-color:#74c9a4;background:#4d9675e8}
+.blackhole-zone.failed{border-color:#ee9ba9;background:#a95368e8}
+.blackhole-map-hint{border-color:#e6a9bf;background:#fff1f6dd;color:#a65072}
+.blackhole-records{border-color:#e5b0c4;background:#fff7fa}
+.blackhole-records h3{color:#6d3152}
+.blackhole-record{border-color:#e1b0c3;background:#fff0f6;color:#a65072}
+.blackhole-record b{color:#6d3152}
+.blackhole-record small{color:#c45b82}
+.blackhole-record.sealed{border-color:#df83ac;background:#ffe0eb}
+.blackhole-record.not-counted{color:#b76589}
+.blackhole-record.counted{border-color:#76c6a4;background:#e4f7ed}
+.blackhole-modal{background:#5c203888}
+.blackhole-modal-box{border-color:#db8eae;background:#fff3f8;color:#713653;box-shadow:0 20px 70px #7d315544}
+.blackhole-modal-box h3{color:#6d3152}
+.blackhole-modal-box p{color:#a45b79}
+.blackhole-modal-list span{border-color:#d889a8;background:#ffe2ed;color:#9c466a}
+.blackhole-modal-actions button{border-color:#dda1b8;background:#fff0f5;color:#9c466a}
+.blackhole-modal-actions button.primary{background:#ff8fb8;color:#4b2038}
+.blackhole-result-icon{border-color:#ef8fb2;background:#ffe0eb;color:#c24f7c}
+.blackhole-result-detail{border-color:#e6afc3;background:#fff0f6;color:#9c466a}
+.blackhole-result-box button{background:#ff8fb8;color:#4b2038}
+.blackhole-start-button{
+  border:2px solid #ffb3cf;
+  border-radius:9px;
+  background:linear-gradient(135deg,#ff5f9d 0%,#ff8fbd 52%,#ffb36f 100%);
+  color:#541d3b;
+  font-size:13px;
+  letter-spacing:.5px;
+  box-shadow:0 7px 18px rgba(255,91,153,.36),0 0 0 3px rgba(255,174,207,.18);
+  text-shadow:0 1px 0 rgba(255,255,255,.35);
+  transition:transform .16s,box-shadow .16s,filter .16s;
+}
+.blackhole-start-button:hover:not(:disabled){
+  transform:translateY(-2px);
+  filter:saturate(1.12) brightness(1.05);
+  box-shadow:0 10px 24px rgba(255,91,153,.48),0 0 0 4px rgba(255,174,207,.24);
+}
+.blackhole-start-button:active:not(:disabled){transform:translateY(0)}
+.blackhole-start-button:disabled{
+  opacity:.82;
+  filter:saturate(.72);
+  box-shadow:0 4px 12px rgba(255,91,153,.22),0 0 0 2px rgba(255,174,207,.14);
+}
+.blackhole-start-overlay{
+  position:fixed;
+  inset:0;
+  z-index:260;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(78,25,54,.62);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .2s,visibility .2s;
+}
+.blackhole-start-overlay.show{opacity:1;visibility:visible}
+.blackhole-start-overlay img{
+  display:block;
+  width:min(72vw,360px);
+  max-height:72vh;
+  object-fit:contain;
+  border-radius:18px;
+  box-shadow:0 20px 65px rgba(33,8,25,.5),0 0 0 5px rgba(255,181,211,.58);
+  animation:blackholeStartReveal .35s ease-out both;
+}
+@keyframes blackholeStartReveal{
+  from{opacity:0;transform:scale(.82) rotate(-3deg)}
+  to{opacity:1;transform:scale(3) rotate(0)}
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">
+      <img src="pig.png" alt="小猪电玩馆">
+    </div>
+    <div>
+      <div id="brand-en" class="brand-en">ZHU ZHU GAME</div>
+      <div id="brand-name" class="brand-name">小猪电玩馆</div>
+    </div>
+  </div>
+  <div class="service"><i class="service-dot"></i>独立游戏服务</div>
+</header>
+
+<section id="journey-page" class="flow-page">
+  <div class="flow-head">
+    <div>
+      <p class="kicker">GUAGUA GAME · JOURNEY SELECT</p>
+      <h1 class="flow-title">选择你的游戏旅程</h1>
+      <p class="flow-subtitle">小猪出逃日记的地图、规则和惊喜。</p>
+    </div>
+    <div class="flow-step"><strong>01</strong>选择旅程</div>
+  </div>
+
+  <div class="journey-grid">
+    <article class="journey-card">
+      <div class="journey-cover">
+        <img src="pig-cover.jpg" alt="小猪出逃日记封面">
+        <div class="cover-title">小猪出逃日记</div>
+      </div>
+      <div class="journey-info">
+        <div>
+          <h2>小猪出逃日记</h2>
+          <p>掷骰子环游地图，抵达地点扣除金币，完成属于你的出逃路线。</p>
+          <small>轻松入门 · 24 个地点<br>支持存档与事件</small>
+        </div>
+        <button type="button" class="primary" data-select-game="pig">进入游戏</button>
+      </div>
+    </article>
+
+    <article class="journey-card">
+      <div class="journey-cover bingo-cover">
+        <img src="bingo-cover.jpg" alt="随机金 Bingo 封面">
+        <div class="cover-title">随机金 Bingo</div>
+      </div>
+      <div class="journey-info">
+        <div>
+          <h2>随机金 Bingo</h2>
+          <p>选择你的棋盘，标记收集品，完成连线后使用道具继续游戏。</p>
+          <small>金色主题 · 独立存档<br>最多保留 3 张候选棋盘</small>
+        </div>
+        <button type="button" class="primary" data-select-game="bingo">进入玩法</button>
+      </div>
+    </article>
+
+    <article class="journey-card">
+      <div class="journey-cover travel-cover">
+        <img src="map20.png" alt="猪猪环游记地图">
+        <div class="cover-title">猪猪环游记</div>
+      </div>
+      <div class="journey-info">
+        <div>
+          <h2>猪猪环游记</h2>
+          <p>开启一段新的环游旅程，按照自己的路线探索地图和事件。</p>
+          <small>独立玩法 · 独立存档<br>玩法内容后续添加</small>
+        </div>
+        <button type="button" class="primary" data-select-game="travel">进入玩法</button>
+      </div>
+    </article>
+
+    <article class="journey-card">
+      <div class="journey-cover blackhole-cover" aria-label="航天黑洞封面">
+        <img src="121.png" alt="航天黑洞封面">
+        <div class="cover-title">航天黑洞</div>
+      </div>
+      <div class="journey-info">
+        <div>
+          <h2>航天黑洞</h2>
+          <p>进入未知的航天黑洞，探索新的地图与挑战。</p>
+          <small>老板端 / 打手端<br>按轮次协作记录</small>
+        </div>
+        <button type="button" class="primary" data-select-game="blackhole">进入玩法</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="save-page" class="flow-page hidden">
+  <div class="save-head">
+    <div>
+      <button id="back-journey" type="button" class="back-button">← 回到初始页面</button>
+      <p class="kicker">GUAGUA GAME · SAVE LIBRARY</p>
+      <h1 id="save-page-title">选择存档</h1>
+      <p id="save-page-description">点击存档卡片上的“进入”开始游戏。</p>
+    </div>
+    <button id="new-save-button" type="button" class="new-save">新建存档</button>
+  </div>
+  <div id="save-grid" class="save-grid"></div>
+</section>
+
+<div id="save-modal-mask" class="modal-mask hidden">
+  <form id="save-form" class="save-modal">
+    <h2 id="save-modal-title">新建存档</h2>
+    <p>创建后，在存档卡片上点击“进入”开始游戏。</p>
+
+    <label for="save-name">存档名称</label>
+    <input id="save-name" maxlength="60" placeholder="例如：我的游戏存档">
+
+    <label for="player-name">玩家昵称</label>
+    <input id="player-name" maxlength="40" placeholder="例如：猪猪一号">
+
+    <label for="save-note">存档备注</label>
+    <input id="save-note" maxlength="120" placeholder="例如：和朋友一起玩">
+
+    <label for="save-password">存档密码</label>
+    <input id="save-password" type="password" minlength="4" maxlength="60" placeholder="至少 4 位密码">
+
+    <label for="save-password-confirm">确认密码</label>
+    <input id="save-password-confirm" type="password" minlength="4" maxlength="60" placeholder="再次输入密码">
+
+    <div class="modal-actions">
+      <button id="cancel-save-button" type="button" class="modal-cancel">取消</button>
+      <button id="create-save-button" type="button" class="modal-confirm">创建存档</button>
+    </div>
+  </form>
+</div>
+
+<div id="unlock-save-mask" class="modal-mask hidden"><form id="unlock-save-form" class="save-modal"><p class="kicker">UNLOCK SAVE</p><h2 id="unlock-save-title">解锁存档</h2><p>请输入存档密码后继续进入游戏。</p><label for="unlock-password">存档密码</label><input id="unlock-password" type="password" autocomplete="current-password" placeholder="请输入存档密码"><div class="modal-actions"><button id="cancel-unlock-button" type="button" class="modal-cancel">取消</button><button type="submit" class="modal-confirm">解锁并进入</button></div></form></div>
+
+<main id="travel-page" class="travel-page hidden">
+  <div class="travel-content">
+    <div class="travel-top">
+      <button id="back-travel-save" type="button" class="travel-back">← 返回存档</button>
+      <div class="travel-top-actions">
+        <button type="button" class="travel-link" id="travel-record-button">操作记录</button>
+        <button type="button" class="travel-link" id="travel-help-button">玩法说明</button>
+      </div>
+    </div>
+
+    <section id="travel-map-section">
+      <section class="travel-heading">
+      <p class="travel-heading-kicker">01 / 02 · 选择地图</p>
+      <h1>这一次，去哪里环游?</h1>
+      <p>从不同的出发点出发，把一次次成功抵达连成你的旅程。</p>
+    </section>
+
+    <section class="travel-map-grid" aria-label="环游记地图选择">
+      <button type="button" class="travel-map-card active" data-travel-map="spaceport">
+        <div class="travel-map-art"><img src="map20.png" alt="航天基地地图"></div>
+        <div class="travel-map-info">
+          <p class="travel-map-code">SPACEPORT · 开放探索</p>
+          <h2>航天基地</h2>
+          <p>8 个出发点 · 开启环游</p>
+        </div>
+        <span class="travel-map-arrow">↗</span>
+      </button>
+
+      <button type="button" class="travel-map-card locked" data-travel-map="baksh">
+        <div class="travel-map-art"><span aria-hidden="true">◇</span></div>
+        <div class="travel-map-info">
+          <p class="travel-map-code">BAKSH</p>
+          <h2>巴克什</h2>
+          <p>敬请期待</p>
+        </div>
+      </button>
+
+      <button type="button" class="travel-map-card locked" data-travel-map="tidal">
+        <div class="travel-map-art"><span aria-hidden="true">▥</span></div>
+        <div class="travel-map-info">
+          <p class="travel-map-code">TIDAL PRISON</p>
+          <h2>潮汐监狱</h2>
+          <p>敬请期待</p>
+        </div>
+      </button>
+    </section>
+    </section>
+    <section id="travel-target-section" class="hidden">
+      <button id="travel-back-map" type="button" class="travel-back">← 重新选择地图</button>
+      <section class="travel-heading">
+        <p class="travel-heading-kicker">02 / 02 · 选择目标数量</p>
+        <h1>收集多少处成功撤离?</h1>
+        <p>航天基地 · 只选数量，不限定具体地点。相同出生点最多计入一次。</p>
+      </section>
+      <section class="travel-target-grid" aria-label="目标数量选择">
+        <button type="button" class="travel-target-card" data-travel-target="3"><small>航天环游记</small><strong>3<em>处</em></strong><p>不同出生点成功撤离</p><span class="target-price">588 <small>R</small></span><span class="target-start">选择并开始 ↗</span></button>
+        <button type="button" class="travel-target-card" data-travel-target="5"><small>航天环游记</small><strong>5<em>处</em></strong><p>不同出生点成功撤离</p><span class="target-price">1088 <small>R</small></span><span class="target-start">选择并开始 ↗</span></button>
+        <button type="button" class="travel-target-card" data-travel-target="6"><small>航天环游记</small><strong>6<em>处</em></strong><p>不同出生点成功撤离</p><span class="target-price">1388 <small>R</small></span><span class="target-start">选择并开始 ↗</span></button>
+        <button type="button" class="travel-target-card" data-travel-target="7"><small>航天环游记</small><strong>7<em>处</em></strong><p>不同出生点成功撤离</p><span class="target-price">1788 <small>R</small></span><span class="target-start">选择并开始 ↗</span></button>
+      </section>
+      <p class="travel-footnote">每周成功收益 ≥ 688W 且未丢包，该出生点才计入完成数量。</p>
+    </section>
+  </div>
+</main>
+
+<main id="blackhole-target-page" class="travel-page blackhole-target-page hidden">
+  <div class="travel-content">
+    <div class="travel-top">
+      <button id="back-blackhole-target-save" type="button" class="travel-back">← 返回存档</button>
+    </div>
+    <section class="travel-heading">
+      <p class="travel-heading-kicker">01 / 02 · 选择目标数量</p>
+      <h1>本局完成多少个黑洞?</h1>
+      <p>先选择黑洞数量和非黑洞撤离次数，再选择老板端或打手端。</p>
+    </section>
+    <section class="travel-target-grid" aria-label="航天黑洞目标选择">
+      <button type="button" class="travel-target-card blackhole-target-card" data-blackhole-target="4" data-non-blackhole-target="2"><small>航天黑洞</small><strong>4<em>个黑洞</em></strong><p>完成 2 次非黑洞撤离</p><span class="target-price">非黑洞 2 次</span><span class="target-start">选择并继续 ↗</span></button>
+      <button type="button" class="travel-target-card blackhole-target-card" data-blackhole-target="5" data-non-blackhole-target="3"><small>航天黑洞</small><strong>5<em>个黑洞</em></strong><p>完成 3 次非黑洞撤离</p><span class="target-price">非黑洞 3 次</span><span class="target-start">选择并继续 ↗</span></button>
+      <button type="button" class="travel-target-card blackhole-target-card" data-blackhole-target="6" data-non-blackhole-target="3"><small>航天黑洞</small><strong>6<em>个黑洞</em></strong><p>完成 3 次非黑洞撤离</p><span class="target-price">非黑洞 3 次</span><span class="target-start">选择并继续 ↗</span></button>
+      <button type="button" class="travel-target-card blackhole-target-card" data-blackhole-target="7" data-non-blackhole-target="3"><small>航天黑洞</small><strong>7<em>个黑洞</em></strong><p>完成 3 次非黑洞撤离</p><span class="target-price">非黑洞 3 次</span><span class="target-start">选择并继续 ↗</span></button>
+    </section>
+  </div>
+</main>
+
+<main id="blackhole-role-page" class="blackhole-role-page hidden">
+  <div class="blackhole-role-shell">
+    <button id="back-blackhole-role-target" type="button" class="blackhole-role-back">← 返回目标选择</button>
+    <p class="blackhole-role-kicker">航天黑洞 · 选择端口</p>
+    <h1>请选择进入的端</h1>
+    <p>先选择本次使用的端口，再进入航天黑洞操作页面。</p>
+    <div class="blackhole-role-options">
+      <button type="button" class="blackhole-role-option" data-blackhole-role-choice="boss"><strong>老板端</strong><small>负责按本局目标数量选择地点进行封存，并查看打手端提交的全部记录。</small><span>进入老板端 →</span></button>
+      <button type="button" class="blackhole-role-option" data-blackhole-role-choice="worker"><strong>打手端</strong><small>等待老板端封存完成后，选择地点并输入本局哈弗币。</small><span>进入打手端 →</span></button>
+    </div>
+  </div>
+</main>
+
+<main id="blackhole-page" class="blackhole-page hidden">
+  <div class="blackhole-app">
+    <aside class="blackhole-sidebar">
+      <div class="blackhole-brand"><span class="blackhole-brand-orb" aria-hidden="true"></span><div><strong>航天黑洞</strong><small>SPACEPORT FIELD MAP</small></div></div>
+      <button id="back-blackhole-save" type="button" class="blackhole-back">← 返回存档</button>
+      <div class="blackhole-command"><p class="blackhole-kicker">COMMAND / 黑洞指令</p><h2 id="blackhole-round-title">第 1 轮</h2><p id="blackhole-target-summary">航天基地 · 4 个黑洞 · 非黑洞 2 次</p></div>
+      <div class="blackhole-stat-row"><div class="blackhole-stat"><span>累计收益</span><strong id="blackhole-total-income">0W</strong></div><div class="blackhole-stat"><span>有效地点</span><strong id="blackhole-counted-count">0</strong></div></div>
+      <section id="blackhole-boss-panel" class="blackhole-panel">
+        <h3>本轮黑洞封存 <span id="blackhole-seal-count">0 / 4</span></h3>
+        <p class="blackhole-help">可手动选择地点，也可以点击“开始游戏”由系统随机封存。封存完成后，打手端才能提交记录。</p>
+        <button id="blackhole-random-start" type="button" class="blackhole-start-button">开始游戏</button>
+        <div id="blackhole-seal-list" class="blackhole-place-list"></div>
+        <button id="blackhole-seal-confirm" type="button" class="blackhole-confirm-button" disabled>确认封存本轮</button>
+        <button id="blackhole-next-round" type="button" class="blackhole-next-button">开启下一轮布置</button>
+      </section>
+      <section id="blackhole-worker-panel" class="blackhole-panel hidden">
+        <h3>打手端记录 <span id="blackhole-worker-phase">等待封存</span></h3>
+        <p class="blackhole-help">老板端完成对应数量的地点封存后，选择地点并输入本局哈弗币。</p>
+        <div id="blackhole-worker-place-list" class="blackhole-place-list"></div>
+        <input id="blackhole-worker-income" class="blackhole-worker-input" type="number" min="0" step="1" placeholder="输入本局哈弗币，例如 1000">
+        <p id="blackhole-worker-tip" class="blackhole-worker-tip">提交后由老板端核验本轮地点状态。</p>
+        <button id="blackhole-worker-submit" type="button" class="blackhole-submit-button">撤离成功并提交</button>
+        <button id="blackhole-worker-failure" type="button" class="blackhole-next-button">撤离失败并提交</button>
+      </section>
+      <div class="blackhole-panel"><h3>本轮提示</h3><p id="blackhole-side-note" class="blackhole-help">老板端先封存 4 个地点。</p></div>
+      <section class="blackhole-records"><h3>本局记录 · 封存地点也会保留展示</h3><div id="blackhole-record-list" class="blackhole-record-list"></div></section>
+    </aside>
+    <section class="blackhole-main">
+      <header class="blackhole-top"><div class="blackhole-top-title"><small>SPACEPORT FIELD MAP</small><strong>航天基地</strong></div><span id="blackhole-phase" class="blackhole-phase">等待老板端封存</span><span id="blackhole-top-role" class="blackhole-phase">当前：老板端</span></header>
+      <div id="blackhole-map-area" class="blackhole-map-area"><div id="blackhole-map-canvas" class="blackhole-map-canvas"><img class="blackhole-map-image" src="map2.png" alt="航天基地地图"><button type="button" class="blackhole-zone bh-z1" data-blackhole-place="宿舍"><strong>01 宿舍</strong><small>成功 0 · 失败 0</small></button><button type="button" class="blackhole-zone bh-z2" data-blackhole-place="西大"><strong>02 西大</strong><small>成功 0 · 失败 0</small></button><button type="button" class="blackhole-zone bh-z3" data-blackhole-place="中控"><strong>03 中控</strong><small>成功 0 · 失败 0</small></button><button type="button" class="blackhole-zone bh-z4" data-blackhole-place="二员"><strong>04 二员</strong><small>成功 0 · 失败 0</small></button><button type="button" class="blackhole-zone bh-z5" data-blackhole-place="牢大"><strong>05 牢大</strong><small>成功 0 · 失败 0</small></button><button type="button" class="blackhole-zone bh-z6" data-blackhole-place="牢二"><strong>06 牢二</strong><small>成功 0 · 失败 0</small></button><button type="button" class="blackhole-zone bh-z7" data-blackhole-place="牢三"><strong>07 牢三</strong><small>成功 0 · 失败 0</small></button><button type="button" class="blackhole-zone bh-z8" data-blackhole-place="发射"><strong>08 发射</strong><small>成功 0 · 失败 0</small></button><div id="blackhole-map-hint" class="blackhole-map-hint">老板端可查看本轮已封存地点</div></div><div class="blackhole-zoom-controls" aria-label="地图缩放控制"><button id="blackhole-zoom-in" type="button" aria-label="放大地图">＋</button><button id="blackhole-zoom-label" class="blackhole-zoom-label" type="button" aria-label="当前缩放">100%</button><button id="blackhole-zoom-out" type="button" aria-label="缩小地图">−</button><button id="blackhole-zoom-reset" type="button" aria-label="复位地图">复位</button></div></div>
+    </section>
+  </div>
+</main>
+<div id="blackhole-start-overlay" class="blackhole-start-overlay" aria-hidden="true">
+  <img src="taozo.png" alt="开始游戏">
+</div>
+<div id="blackhole-modal" class="blackhole-modal"><div class="blackhole-modal-box"><h3 id="blackhole-modal-title">确认操作</h3><p id="blackhole-modal-copy"></p><div id="blackhole-modal-list" class="blackhole-modal-list"></div><div class="blackhole-modal-actions"><button id="blackhole-modal-cancel" type="button">返回调整</button><button id="blackhole-modal-confirm" type="button" class="primary">确认并提交</button></div></div></div>
+<div id="blackhole-result-modal" class="blackhole-modal"><div class="blackhole-modal-box blackhole-result-box"><div class="blackhole-result-icon">✓</div><h3 id="blackhole-result-title">记录已提交</h3><p id="blackhole-result-copy"></p><div id="blackhole-result-detail" class="blackhole-result-detail"></div><button id="blackhole-result-close" type="button">知道了</button></div></div>
+
+<main id="travel-run-page" class="travel-run-page hidden">
+  <div class="travel-run-app">
+    <aside class="travel-run-sidebar">
+      <div class="travel-run-brand"><img src="pig.png" alt="小猪电竞馆"><div><strong>小猪电竞馆</strong><small>猪猪环游记 · 航天篇</small></div></div>
+      <div class="travel-run-base"><button id="back-travel-target" type="button" class="travel-run-back">← 返回</button><h2>航天基地</h2><p class="travel-run-online">● 已连接存档</p></div>
+      <div class="travel-run-label">ROUND RECORD</div>
+      <div class="travel-run-round"><img src="map20.png" alt="航天基地"><div><small>本局出发点</small><strong id="travel-run-current">宿舍</strong><small>尚未达标</small></div></div>
+      <div class="travel-run-label">该点累计收益 <b id="travel-run-point-income">0 W</b></div>
+      <div id="travel-run-places" class="travel-run-places"></div>
+      <div class="travel-run-label">成功撤离收益 W</div>
+      <div class="travel-run-income"><label>输入本局撤离收益</label><div class="travel-run-income-row"><input id="travel-run-amount" type="number"><button id="travel-run-record" type="button">记录</button></div><label><input id="travel-run-reroll" type="checkbox"> 本局重投</label></div>
+      <button id="travel-run-success" type="button" class="travel-run-result">撤离成功 · 领取收益</button>
+      <button id="travel-run-failure" type="button" class="travel-run-result travel-run-fail">撤离失败 · -60 W</button>
+      <p class="travel-run-note">成功 ≥688W 且未丢包才点亮地点；失败扣减本点60W。</p>
+      <div class="travel-run-foot"><button id="travel-run-log-button" type="button">操作记录 · 0 局</button><button id="travel-run-help-button" type="button">玩法说明</button></div>
+    </aside>
+    <header class="travel-run-top"><div class="travel-run-stat"><span>累计哈弗币</span><strong id="travel-run-total">0 W</strong></div><div class="travel-run-stat"><span>完成地点</span><strong id="travel-run-done">0 / 5</strong></div><div class="travel-run-stat"><span>目标数量</span><strong id="travel-run-target">5 处</strong></div><div class="travel-run-top-space"></div><div id="travel-run-clock" class="travel-run-top-title"></div></header>
+    <main id="travel-run-map-area" class="travel-run-map-area"><div id="travel-run-map" class="travel-run-map-canvas"><img class="travel-run-map-image" src="map20.png" alt="航天基地地图"><button class="travel-run-zone run-z1" data-run-place="宿舍">宿舍 <b>0W</b></button><button class="travel-run-zone run-z2" data-run-place="西大">西大 <b>0W</b></button><button class="travel-run-zone run-z3" data-run-place="中控">中控 <b>0W</b></button><button class="travel-run-zone run-z4" data-run-place="二员">二员 <b>0W</b></button><button class="travel-run-zone run-z5" data-run-place="牢大">牢大 <b>0W</b></button><button class="travel-run-zone run-z6" data-run-place="牢二">牢二 <b>0W</b></button><button class="travel-run-zone run-z7" data-run-place="牢三">牢三 <b>0W</b></button><button class="travel-run-zone run-z8" data-run-place="火发">火发 <b>0W</b></button></div><div class="travel-run-zoom-controls" aria-label="地图缩放控制"><button id="travel-run-zoom-in" type="button" aria-label="放大地图">＋</button><button id="travel-run-zoom-label" class="travel-run-zoom-label" type="button" aria-label="当前缩放">100%</button><button id="travel-run-zoom-out" type="button" aria-label="缩小地图">−</button><button id="travel-run-zoom-reset" type="button" aria-label="复位地图">复位</button></div></main>
+  </div>
+</main>
+
+<main id="game-page" class="page-shell hidden">
+  <section class="hero">
+    <div>
+      <button id="back-pig-save" type="button" class="back-button">← 返回存档</button>
+      <p class="eyebrow">GUAGUA TRAVEL · BOARD GAME</p>
+      <h1>三角洲俱乐部 <span>大富翁游戏</span></h1>
+      <p class="subtitle">掷骰子，在三角洲俱乐部的地图上前进，收集金币与故事。</p>
+    </div>
+
+    <div class="plan-switcher" aria-label="旅程套餐">
+      <button type="button" class="plan-button active" data-plan="3">588R · 轻享三城</button>
+      <button type="button" class="plan-button" data-plan="6">988R · 畅游六城</button>
+      <button type="button" class="plan-button" data-plan="9">1288R · 环游九城</button>
+      <span id="checked-count" class="plan-summary">已打卡 0/23</span>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="游戏统计">
+    <div><span>初始金币</span><strong>20</strong></div>
+    <div><span>累计哈弗币</span><strong id="earned">0W</strong></div>
+    <div><span>已兑换金币</span><strong id="exchanged">0</strong></div>
+    <div class="highlight"><span>当前金币</span><strong id="coins">20</strong></div>
+    <div><span>游园机会</span><strong id="turns">0</strong></div>
+    <div><span>当前位置</span><strong id="position-label">起点</strong></div>
+  </section>
+
+  <div class="game-layout">
+    <section class="board-wrap">
+      <div class="board-heading">
+        <span>🗺️</span>
+        <b>三角洲俱乐部 <em>大富翁游戏</em></b>
+        <span class="cloud">☁️</span>
+      </div>
+
+      <div class="board-scroll">
+        <div id="board" class="board" aria-label="旅行地图"></div>
+      </div>
+
+      <div class="legend">
+        <span><i></i>已打卡</span>
+        <span><i class="event-dot"></i>命运事件</span>
+        <span><i class="current-dot"></i>当前位置</span>
+      </div>
+    </section>
+
+    <aside class="control-panel">
+      <div class="mascot">
+        <img class="pig-image" src="pig.png" alt="小猪">
+      </div>
+
+      <button id="roll-button" type="button" class="dice-button" aria-label="掷骰子">
+        <span id="dice-cube" class="dice-cube" aria-hidden="true"></span>
+      </button>
+
+      <div class="status-card">
+        <strong id="event-title">准备出发</strong>
+        <p id="event-copy">录入哈弗币兑换金币，然后掷骰前进。</p>
+      </div>
+
+      <p class="hint">准备好后开始本次旅程。</p>
+
+      <div class="panel-section">
+        <label for="habi">本周获得哈弗币（W）</label>
+        <div class="inline-form">
+          <input id="habi" type="number" min="0" step="1" value="800">
+          <button id="exchange-button" type="button">兑换金币</button>
+        </div>
+        <small>每 100W = 10 金币</small>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-title-row">
+          <span class="section-title">现金金币调整</span>
+          <small>命运、补偿或临时扣款</small>
+        </div>
+
+        <div class="adjust-grid">
+          <input id="delta" type="number" step="1" value="20" aria-label="调整金币数量">
+          <input id="reason" type="text" maxlength="100" placeholder="例如：命运事件">
+        </div>
+
+        <button id="adjust-button" type="button" class="outline-button">确认调整金币</button>
+      </div>
+
+      <details class="save-box">
+        <summary>▸ 存档进度校准</summary>
+        <div class="progress-actions">
+          <button id="save-progress-button" type="button">保存</button>
+          <button id="load-progress-button" type="button">读取存档</button>
+          <button id="reset-progress-button" type="button">重置</button>
+        </div>
+      </details>
+
+      <button id="start-journey-button" type="button" class="primary-button">掷骰子，开始旅程</button>
+      <button id="skip-button" type="button" class="secondary-button">跳过本次 · 不消耗机会</button>
+
+      <div class="panel-footer">
+        <button id="sound-button" type="button">🔊 声音</button>
+        <button id="reset-page-button" type="button">↻ 重置页面</button>
+      </div>
+    </aside>
+  </div>
+
+  <section class="bottom-info">
+    <article>
+      <p class="card-kicker">本次旅程</p>
+      <h2 id="journey-title">轻享三城 · 已打卡 0/3</h2>
+      <div class="progress"><span id="progress-bar"></span></div>
+      <p class="muted">每一次掷骰都会留下你的旅行足迹。</p>
+    </article>
+
+    <article>
+      <p class="card-kicker">本存档游戏记录</p>
+      <h2 id="record-title">还没有游戏记录</h2>
+      <ol id="record-list" class="record-list">
+        <li>掷出骰子后，记录会显示在这里。</li>
+      </ol>
+    </article>
+  </section>
+</main>
+
+<main id="bingo-page" class="bingo-page hidden">
+  <div class="bingo-content">
+    <div class="bingo-top">
+      <button id="back-bingo-save" type="button" class="bingo-back">← 返回存档</button>
+      <span>● 独立游戏服务</span>
+    </div>
+
+    <section id="bingo-setup">
+      <div class="bingo-heading">
+        <div>
+          <p class="bingo-kicker">GUAGUA RANDOM GOLD BINGO</p>
+          <h1>随机金 Bingo</h1>
+          <p>开局先生成 1 张棋盘，再点击生成，最多保留 3 张候选棋盘。</p>
+          <label class="bingo-picker">
+            临时选择素材文件夹
+            <input id="bingo-assets-input" type="file" webkitdirectory directory multiple accept="image/*">
+          </label>
+        </div>
+        <div id="bingo-preview" class="bingo-preview" aria-label="Bingo 图片预览"></div>
+      </div>
+
+      <div class="bingo-rules">
+        <h2>开局前选择连线数量</h2>
+        <p>完成横、竖或斜线连线后，会弹出道具选择。</p>
+
+        <div class="rule-list">
+          <button type="button" class="rule active" data-bingo-rule="3">
+            <small>获胜规则</small>
+            <strong>3 连</strong>
+            <span>横、竖、斜连成 3 格</span>
+            <em>自救 66R · 上帝之手 88R</em>
+          </button>
+
+          <button type="button" class="rule" data-bingo-rule="4">
+            <small>获胜规则</small>
+            <strong>4 连</strong>
+            <span>横、竖、斜连成 4 格</span>
+            <em>自救 88R · 上帝之手 108R</em>
+          </button>
+
+          <button type="button" class="rule" data-bingo-rule="5">
+            <small>获胜规则</small>
+            <strong>5 连</strong>
+            <span>横、竖、斜连成 5 格</span>
+            <em>自救 108R · 上帝之手 128R</em>
+          </button>
+        </div>
+
+        <button id="bingo-start-button" type="button" class="start-bingo">确认 3 连规则并开局</button>
+      </div>
+    </section>
+
+    <section id="bingo-board-section" class="hidden">
+      <div class="bingo-heading">
+        <div>
+          <p class="bingo-kicker">GUAGUA RANDOM GOLD BINGO</p>
+          <h1>随机金 Bingo</h1>
+          <p>点击图片标记，完成连线后选择道具。打乱或换位后，高亮会跟着图片移动。</p>
+          <label for="bingo-assets-input" class="bingo-picker">临时选择素材文件夹</label>
+        </div>
+        <div id="bingo-preview-board" class="bingo-preview" aria-label="当前棋盘预览"></div>
+      </div>
+
+      <div class="bingo-stats">
+        <div><small>获胜规则</small><strong id="bingo-rule-label">3 连</strong></div>
+        <div><small>当前连线</small><strong id="bingo-line-label">连续 0 格</strong></div>
+        <div><small>已标记</small><strong id="bingo-marked-label">0 / 56</strong></div>
+        <div><small>累计道具额度</small><strong id="bingo-earned-label">0R</strong></div>
+      </div>
+
+      <div class="bingo-main">
+        <aside class="candidate-panel">
+          <h2>候选棋盘</h2>
+          <p>开始只有方案 1。每点一次生成，增加一个方案，最多 3 个。</p>
+          <div id="bingo-candidates" class="candidate-list"></div>
+        </aside>
+
+        <div class="bingo-board-main">
+          <p id="bingo-swap-hint" class="swap-hint hidden">上帝之手：请选择两个格子交换位置。</p>
+          <div id="bingo-grid" class="bingo-grid" aria-label="7 列 8 行 Bingo 棋盘"></div>
+
+          <div class="bingo-actions">
+            <span id="bingo-round-label">方案 1</span>
+            <button id="bingo-clear-button" type="button">清空标记</button>
+            <button id="bingo-generate-button" type="button">生成新棋盘</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="travel-run-help-modal" class="travel-run-modal"><div class="travel-run-modal-box"><h2>猪猪环游记 · 航天基地</h2><p>选择地点，记录本局撤离收益。收益达到 688W 且未丢包，该地点才计入完成数量。失败会扣除 60W。</p><button type="button" id="travel-run-help-close">知道了</button></div></div>
+<div id="travel-run-log-modal" class="travel-run-modal"><div class="travel-run-modal-box"><h2>操作记录</h2><ul id="travel-run-log-list" class="travel-run-logs"></ul><button type="button" id="travel-run-log-close">关闭</button></div></div>
+<div id="reward-mask" class="modal-mask gold-mask hidden">
+  <div class="gold-dialog" role="dialog" aria-modal="true" aria-labelledby="reward-title">
+    <h2 id="reward-title">BINGO!</h2>
+    <p id="reward-copy">请选择要使用的道具。</p>
+
+    <div class="reward-options">
+      <button id="reward-self-button" type="button" data-reward="self">自救 · 66R</button>
+      <button id="reward-hand-button" type="button" data-reward="hand">上帝之手 · 88R</button>
+    </div>
+
+    <button id="reward-confirm-button" type="button" class="gold-confirm">确认使用</button>
+  </div>
+</div>
+
+<div id="candidate-confirm-mask" class="modal-mask gold-mask hidden">
+  <div class="gold-dialog" role="dialog" aria-modal="true" aria-labelledby="candidate-confirm-title">
+    <h2 id="candidate-confirm-title">切换候选棋盘</h2>
+    <p>切换方案会清空当前标记，是否继续？</p>
+    <div class="gold-dialog-actions">
+      <button id="candidate-cancel-button" type="button">取消</button>
+      <button id="candidate-confirm-button" type="button">确认切换</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+const $=id=>document.getElementById(id);
+const sessionStorageCache=new Map();
+
+const gameNames={
+  pig:"小猪出逃日记",
+  bingo:"随机金 Bingo",
+  travel:"环游记",
+  blackhole:"航天黑洞"
+};
+
+const legacyGameIds={
+  pig:"maligua",
+  bingo:"goldbingo",
+  travel:"huanyouji",
+  blackhole:"hangtianheidong"
+};
+
+const planData={
+  3:{name:"轻享三城",target:3},
+  6:{name:"畅游六城",target:6},
+  9:{name:"环游九城",target:9}
+};
+
+const places=[
+  ["起点","出发金币 20","start"],
+  ["内蒙古","80 金币","reward"],
+  ["陕西","100 金币","reward"],
+  ["命运","随机事件","event"],
+  ["苏州","150 金币","reward"],
+  ["四川","100 金币","reward"],
+  ["云南","65 金币","reward"],
+  ["命运","随机事件","event"],
+  ["上海","150 金币","reward"],
+  ["广西","100 金币","reward"],
+  ["香港","95 金币","reward"],
+  ["命运","随机事件","event"],
+  ["台湾","95 金币","reward"],
+  ["浙江","110 金币","reward"],
+  ["命运","随机事件","event"],
+  ["河南","80 金币","reward"],
+  ["山东","100 金币","reward"],
+  ["命运","随机事件","event"],
+  ["重庆","100 金币","reward"],
+  ["命运","随机事件","event"],
+  ["广东","130 金币","reward"],
+  ["湖北","80 金币","reward"],
+  ["湖南","100 金币","reward"],
+  ["终点","完成旅行后通关","finish"]
+];
+
+let selectedGame="pig";
+let activeSaveId="";
+let pendingUnlockId="";
+let pendingBlackholeRole="";
+let toastTimer=null;
+let storagePersistent=true;
+let pendingRoll=null;
+let rollTimer=null;
+let audioContext=null;
+let bingoImageUrls=[];
+let pendingCandidateIndex=-1;
+
+function finiteNumber(value,fallback=0){
+  const number=Number(value);
+  return Number.isFinite(number)?number:fallback;
+}
+
+function clamp(value,min,max){
+  return Math.min(max,Math.max(min,value));
+}
+
+function makeId(){
+  return "save-"+Date.now()+"-"+Math.random().toString(16).slice(2);
+}
+
+function showToast(message){
+  $("toast").textContent=message;
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{
+    $("toast").classList.remove("show");
+  },2400);
+}
+
+function readJSON(key,fallback){
+  let raw=null;
+
+  if(sessionStorageCache.has(key)){
+    raw=sessionStorageCache.get(key);
+  }else{
+    try{
+      raw=localStorage.getItem(key);
+      if(raw!==null)sessionStorageCache.set(key,raw);
+    }catch(error){
+      storagePersistent=false;
+    }
+  }
+
+  if(raw===null)return fallback;
+
+  try{
+    return JSON.parse(raw);
+  }catch(error){
+    return fallback;
+  }
+}
+
+function writeJSON(key,value){
+  const raw=JSON.stringify(value);
+  sessionStorageCache.set(key,raw);
+
+  try{
+    localStorage.setItem(key,raw);
+    storagePersistent=true;
+    return true;
+  }catch(error){
+    storagePersistent=false;
+    return false;
+  }
+}
+
+function removeStored(key){
+  sessionStorageCache.delete(key);
+
+  try{
+    localStorage.removeItem(key);
+  }catch(error){}
+}
+
+function saveListKey(game=selectedGame){
+  return "guagua-save-list-"+game;
+}
+
+function stateKey(game=selectedGame,id=activeSaveId){
+  if(game==="bingo")return "guagua-bingo-state-"+id;
+  if(game==="travel")return "guagua-travel-state-"+id;
+  if(game==="blackhole")return "guagua-blackhole-state-"+id;
+  return "guagua-pig-state-"+id;
+}
+
+function getSaveList(game=selectedGame){
+  let raw=readJSON(saveListKey(game),null);
+
+  if(!Array.isArray(raw)){
+    raw=readJSON("guagua-saves-v2-"+legacyGameIds[game],[]);
+  }
+
+  if(!Array.isArray(raw))raw=[];
+
+  return raw
+    .filter(item=>item&&typeof item==="object")
+    .map(item=>({
+      id:String(item.id||makeId()),
+      name:String(item.name||"我的"+gameNames[game]+"存档"),
+      note:String(item.note||"未命名玩家"),
+      stats:String(item.stats||""),
+      time:String(item.time||"刚刚创建")
+    }));
+}
+
+function writeSaveList(list,game=selectedGame){
+  writeJSON(saveListKey(game),list);
+}
+
+function updateSaveSummary(game,id,summary){
+  if(!id)return;
+
+  const list=getSaveList(game);
+  const card=list.find(item=>item.id===id);
+
+  if(!card)return;
+
+  card.stats=summary;
+  card.time="刚刚更新";
+  writeSaveList(list,game);
+}
+
+function readProgress(game,id){
+  const current=readJSON(stateKey(game,id),null);
+
+  if(current&&typeof current==="object"&&!Array.isArray(current)){
+    return current;
+  }
+
+  const legacyId=legacyGameIds[game];
+
+  const legacyKey=game==="bingo"
+    ?"guagua-bingo-state-"+legacyId+"-"+id
+    :game==="travel"
+      ?"guagua-travel-state-"+legacyId+"-"+id
+      :"guagua-game-state-"+legacyId+"-"+id;
+
+  const old=readJSON(legacyKey,null);
+
+  if(old&&typeof old==="object"&&!Array.isArray(old)){
+    if(game==="bingo"){
+      return Object.assign({},old,{markedAreIds:true});
+    }
+    return old;
+  }
+
+  return null;
+}
+
+function hideDialogs(){
+  $("save-modal-mask").classList.add("hidden");
+  $("unlock-save-mask").classList.add("hidden");
+  $("reward-mask").classList.add("hidden");
+  $("candidate-confirm-mask").classList.add("hidden");
+  $("blackhole-result-modal").classList.remove("show");
+  pendingCandidateIndex=-1;
+}
+
+function showPage(page){
+  $("journey-page").classList.toggle("hidden",page!=="journey");
+  $("save-page").classList.toggle("hidden",page!=="save");
+  $("game-page").classList.toggle("hidden",page!=="pig");
+  $("travel-page").classList.toggle("hidden",page!=="travel");
+  $("travel-run-page").classList.toggle("hidden",page!=="travel-run");
+  $("blackhole-target-page").classList.toggle("hidden",page!=="blackhole-target");
+  $("blackhole-role-page").classList.toggle("hidden",page!=="blackhole-role");
+  $("blackhole-page").classList.toggle("hidden",page!=="blackhole");
+  $("bingo-page").classList.toggle("hidden",page!=="bingo");
+
+  document.body.classList.toggle("pig-mode",page==="pig");
+  document.body.classList.toggle("bingo-mode",page==="bingo");
+  document.body.classList.toggle("travel-mode",page==="travel"||page==="travel-run");
+  document.body.classList.toggle("blackhole-mode",page==="blackhole"||page==="blackhole-role");
+
+  $("brand-en").textContent=page==="travel"?"ZHU ZHU GAME":"ZHU ZHU GAME";
+  $("brand-name").textContent=page==="travel"||page==="travel-run"?"小猪电竞馆":"小猪电玩馆";
+  document.title=page==="travel"||page==="travel-run"?"猪猪环游记 · 小猪电竞馆":page==="blackhole"||page==="blackhole-role"?"航天黑洞 · 小猪电竞馆":"小猪电玩馆 · 小猪出逃日记";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderSaveCards(){
+  const list=getSaveList();
+  $("save-grid").replaceChildren();
+
+  if(!list.length){
+    const empty=document.createElement("div");
+    empty.className="empty-save";
+    empty.textContent="暂无存档，请点击右上角“新建存档”。";
+    $("save-grid").appendChild(empty);
+    return;
+  }
+
+  writeSaveList(list);
+
+  for(const data of list){
+    const card=document.createElement("article");
+    card.className="save-card";
+    card.dataset.saveId=data.id;
+
+    card.innerHTML=`
+      <div class="save-card-head">
+        <div class="save-avatar">🐷</div>
+        <div>
+          <h3></h3>
+          <small></small>
+        </div>
+      </div>
+      <p></p>
+      <div class="save-card-foot">
+        <span class="save-card-time"></span>
+        <div class="save-actions">
+          <button type="button" class="delete-save" data-delete-save>删除</button>
+          <button type="button" class="enter-save" data-enter-save>进入</button>
+        </div>
+      </div>
+    `;
+
+    card.querySelector("h3").textContent=data.name;
+    card.querySelector("small").textContent=data.note;
+
+    card.querySelector("p").textContent=data.stats||(
+      selectedGame==="bingo"
+        ?"随机金 Bingo · 尚未开局"
+        :selectedGame==="travel"
+          ?"环游记 · 尚未开始"
+          :selectedGame==="blackhole"
+            ?"航天黑洞 · 尚未开始"
+            :"金币 20 · 已打卡 0 个地点"
+    );
+
+    card.querySelector(".save-card-time").textContent=data.time;
+    $("save-grid").appendChild(card);
+  }
+}
+
+function selectGame(game){
+  if(!gameNames[game])return;
+
+  hideDialogs();
+  selectedGame=game;
+  activeSaveId="";
+
+  $("save-page-title").textContent="选择"+gameNames[game]+"存档";
+  $("save-page-description").textContent=gameNames[game]+"使用独立存档，点击“进入”继续游戏。";
+  $("save-modal-title").textContent="新建"+gameNames[game]+"存档";
+
+  renderSaveCards();
+  showPage("save");
+}
+
+function enterSave(id){
+  const card=getSaveList().find(item=>item.id===id);
+  if(!card)return;
+
+  hideDialogs();
+  activeSaveId=id;
+  if(card.password&&selectedGame!=="blackhole"){
+    pendingUnlockId=id;
+  }else{
+    continueIntoSave(id,card);
+    return;
+  }
+  $("unlock-save-title").textContent=card.name;
+  $("unlock-password").value="";
+  $("unlock-save-mask").classList.remove("hidden");
+  $("unlock-password").focus();
+}
+
+function continueIntoSave(id,card){
+  activeSaveId=id;
+
+  if(selectedGame==="bingo"){
+    loadBingo();
+    showPage("bingo");
+    showBingoView();
+
+    if(bingoState.winShown){
+      showRewardModal();
+    }
+  }else if(selectedGame==="travel"){
+    showPage("travel");
+  }else if(selectedGame==="blackhole"){
+    const hasPlan=Boolean(readProgress("blackhole",id));
+    loadBlackhole();
+    showPage(hasPlan?"blackhole-role":"blackhole-target");
+  }else{
+    journeyState=normalizeJourney(readProgress("pig",id));
+    $("habi").value="800";
+    $("delta").value="20";
+    $("reason").value="";
+    buildDice();
+    renderJourney();
+    showPage("pig");
+  }
+
+  showToast("已进入存档："+card.name);
+}
+
+document.querySelectorAll("[data-select-game]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    selectGame(button.dataset.selectGame);
+  });
+});
+
+$("back-journey").addEventListener("click",()=>{
+  hideDialogs();
+  showPage("journey");
+});
+
+$("back-travel-save").addEventListener("click",()=>{
+  renderSaveCards();
+  showPage("save");
+});
+
+$("back-blackhole-save").addEventListener("click",()=>{
+  cancelBlackholeTravel();
+  saveBlackhole();
+  closeBlackholeChannel();
+  renderSaveCards();
+  showPage("save");
+});
+
+document.querySelectorAll("[data-blackhole-role-choice]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const role=button.dataset.blackholeRoleChoice;
+    if(role==="boss"){
+      const card=getSaveList().find(item=>item.id===activeSaveId);
+      if(card){
+        pendingUnlockId=activeSaveId;
+        pendingBlackholeRole="boss";
+        $("unlock-save-title").textContent=card.name;
+        $("unlock-password").value="";
+        $("unlock-save-mask").classList.remove("hidden");
+        $("unlock-password").focus();
+        return;
+      }
+    }
+    chooseBlackholeRole(role);
+    showPage("blackhole");
+  });
+});
+$("back-blackhole-target-save").addEventListener("click",()=>{
+  cancelBlackholeTravel();
+  closeBlackholeChannel();
+  renderSaveCards();
+  showPage("save");
+});
+
+document.querySelectorAll("[data-blackhole-target]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const blackholes=Number(button.dataset.blackholeTarget);
+    const nonBlackholes=Number(button.dataset.nonBlackholeTarget);
+    if(![4,5,6,7].includes(blackholes))return;
+    const changed=blackholeState.blackholeTarget!==blackholes||blackholeState.nonBlackholeTarget!==nonBlackholes;
+    blackholeState.blackholeTarget=blackholes;
+    blackholeState.nonBlackholeTarget=nonBlackholes;
+    if(changed){
+      blackholeState.round=1;
+      blackholeState.phase="seal";
+      blackholeState.sealed=[];
+      blackholeState.records=[];
+      blackholeState.logs=[];
+    }
+    saveBlackhole();
+    showPage("blackhole-role");
+  });
+});
+
+$("back-blackhole-role-target").addEventListener("click",()=>{
+  showPage("blackhole-target");
+});
+$("blackhole-seal-list").addEventListener("click",event=>{
+  const button=event.target.closest("[data-blackhole-choice-mode=seal]");
+  if(button)toggleBlackholeSeal(button.dataset.blackholeChoice);
+});
+$("blackhole-worker-place-list").addEventListener("click",event=>{
+  const button=event.target.closest("[data-blackhole-choice-mode=worker]");
+  if(!button)return;
+  if(blackholeState.phase!=="worker"){
+    showToast("请先等待老板端完成封存");
+    return;
+  }
+  blackholeWorkerPlace=button.dataset.blackholeChoice;
+  renderBlackhole();
+});
+$("blackhole-map-canvas").addEventListener("click",event=>{
+  const button=event.target.closest("[data-blackhole-place]");
+  if(!button)return;
+  const place=button.dataset.blackholePlace;
+  if(blackholeRole==="boss")toggleBlackholeSeal(place);
+  else if(blackholeState.phase==="worker"){
+    blackholeWorkerPlace=place;
+    renderBlackhole();
+  }else showToast("请先等待老板端完成封存");
+});
+$("blackhole-zoom-in").addEventListener("click",()=>setBlackholeZoom(blackholeZoom+.1));
+$("blackhole-zoom-out").addEventListener("click",()=>setBlackholeZoom(blackholeZoom-.1));
+$("blackhole-zoom-reset").addEventListener("click",()=>setBlackholeZoom(1));
+$("blackhole-map-area").addEventListener("wheel",event=>{
+  event.preventDefault();
+  setBlackholeZoom(blackholeZoom+(event.deltaY<0?.1:-.1));
+},{passive:false});
+$("blackhole-seal-confirm").addEventListener("click",()=>{
+  if(blackholeState.sealed.length!==blackholeSealCount())return;
+  openBlackholeModal({type:"seal",places:[...blackholeState.sealed]});
+});
+$("blackhole-random-start").addEventListener("click",startBlackholeRandomGame);
+$("blackhole-worker-submit").addEventListener("click",()=>submitBlackholeRecord("success"));
+$("blackhole-worker-failure").addEventListener("click",()=>submitBlackholeRecord("failure"));
+$("blackhole-next-round").addEventListener("click",startBlackholeNextRound);
+$("blackhole-modal-cancel").addEventListener("click",closeBlackholeModal);
+$("blackhole-modal-confirm").addEventListener("click",confirmBlackholeAction);
+$("blackhole-modal").addEventListener("click",event=>{
+  if(event.target===$("blackhole-modal"))closeBlackholeModal();
+});
+function closeBlackholeResultModal(){
+  $("blackhole-result-modal").classList.remove("show");
+}
+function showBlackholeResultModal(record){
+  $("blackhole-result-title").textContent=record.outcome==="failure"?"撤离失败记录已提交":"记录已提交";
+  const revealForWorker=blackholeRole==="worker"&&blackholeState.phase==="await-next";
+  if(blackholeRole==="worker"&&!revealForWorker){
+    $("blackhole-result-copy").textContent="记录已经提交，老板端会核验本轮地点状态。";
+    $("blackhole-result-detail").textContent=record.outcome==="failure"?"本局撤离失败":"本局撤离成功 · "+record.income+"W";
+  }else if(record.sealed){
+    $("blackhole-result-copy").textContent="该地点已被封存，本次记录保留展示但不计入。";
+    $("blackhole-result-detail").textContent=record.place+" · 已封存 · 不计入";
+  }else if(record.counted){
+    $("blackhole-result-copy").textContent="该地点未被封存，达到标准后计入有效地点。";
+    $("blackhole-result-detail").textContent=record.place+" · "+record.income+"W · 有效计入";
+  }else{
+    $("blackhole-result-copy").textContent="记录已保留，当前未计入有效地点。";
+    $("blackhole-result-detail").textContent=record.place+" · 未达标";
+  }
+  $("blackhole-result-modal").classList.add("show");
+}
+$("blackhole-result-close").addEventListener("click",closeBlackholeResultModal);
+$("blackhole-result-modal").addEventListener("click",event=>{
+  if(event.target===$("blackhole-result-modal"))closeBlackholeResultModal();
+});
+
+document.querySelectorAll("[data-travel-map]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    if(button.classList.contains("locked")){
+      showToast("这个地图还在准备中");
+      return;
+    }
+    document.querySelectorAll("[data-travel-map]").forEach(item=>item.classList.remove("active"));
+    button.classList.add("active");
+    $("travel-map-section").classList.add("hidden");
+    $("travel-target-section").classList.remove("hidden");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+$("travel-record-button").addEventListener("click",()=>{
+  showToast("当前存档暂无环游记录");
+});
+
+$("travel-help-button").addEventListener("click",()=>{
+  showToast("先选择地图，再选择目标数量开始环游");
+});
+
+$("travel-back-map").addEventListener("click",()=>{
+  $("travel-target-section").classList.add("hidden");
+  $("travel-map-section").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+$("back-travel-target").addEventListener("click",()=>{
+  saveTravelRun();
+  showPage("travel");
+  $("travel-map-section").classList.add("hidden");
+  $("travel-target-section").classList.remove("hidden");
+});
+
+document.querySelectorAll("[data-travel-target]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const target=Number(button.dataset.travelTarget);
+    loadTravelRun(target);
+    showPage("travel-run");
+  });
+});
+
+function unlockSave(event){
+  if(event)event.preventDefault();
+  if(!pendingUnlockId)return;
+  const card=getSaveList().find(item=>item.id===pendingUnlockId);
+  if(!card)return;
+  const entered=$("unlock-password").value;
+  if(entered.length<4){showToast("存档密码至少需要 4 位");return;}
+  if(card.password&&entered!==card.password){showToast("存档密码错误");return;}
+  if(!card.password){card.password=entered;writeSaveList(getSaveList().map(item=>item.id===card.id?card:item));}
+  const id=pendingUnlockId;
+  const unlockedRole=pendingBlackholeRole;
+  pendingUnlockId="";
+  pendingBlackholeRole="";
+  $("unlock-save-mask").classList.add("hidden");
+  if(unlockedRole==="boss"){
+    chooseBlackholeRole("boss");
+    showPage("blackhole");
+    showToast("老板端已解锁");
+    return;
+  }
+  continueIntoSave(id,card);
+}
+$("unlock-save-form").addEventListener("submit",unlockSave);
+$("unlock-save-form").querySelector("button[type=submit]").addEventListener("click",unlockSave);
+$("cancel-unlock-button").addEventListener("click",()=>{pendingUnlockId="";pendingBlackholeRole="";$("unlock-save-mask").classList.add("hidden")});
+$("unlock-save-mask").addEventListener("click",event=>{if(event.target===$("unlock-save-mask")){pendingUnlockId="";pendingBlackholeRole="";$("unlock-save-mask").classList.add("hidden")}});
+
+$("new-save-button").addEventListener("click",()=>{
+  $("save-modal-mask").classList.remove("hidden");
+  $("save-name").focus();
+});
+
+$("cancel-save-button").addEventListener("click",()=>{
+  $("save-modal-mask").classList.add("hidden");
+});
+
+$("save-modal-mask").addEventListener("click",event=>{
+  if(event.target===$("save-modal-mask")){
+    $("save-modal-mask").classList.add("hidden");
+  }
+});
+
+function createSave(event){
+  if(event&&typeof event.preventDefault==="function")event.preventDefault();
+
+
+  const name=$("save-name").value.trim()||"我的"+gameNames[selectedGame]+"存档";
+  const player=$("player-name").value.trim()||"未命名玩家";
+  const note=$("save-note").value.trim();
+  const password=$("save-password").value;
+  const passwordConfirm=$("save-password-confirm").value;
+  if(password.length<4){showToast("存档密码至少需要 4 位");return;}
+  if(password!==passwordConfirm){showToast("两次输入的存档密码不一致");return;}
+  const list=getSaveList();
+
+  list.unshift({
+    id:makeId(),
+    name,
+    note:player+" · "+gameNames[selectedGame]+(note?" · "+note:""),
+    stats:selectedGame==="bingo"
+      ?"随机金 Bingo · 尚未开局"
+      :selectedGame==="travel"
+        ?"环游记 · 尚未开始"
+        :selectedGame==="blackhole"
+          ?"航天黑洞 · 尚未开始"
+          :"金币 20 · 已打卡 0 个地点",
+    time:"刚刚创建",
+    password
+  });
+
+  writeSaveList(list);
+  $("save-form").reset();
+  $("save-modal-mask").classList.add("hidden");
+  renderSaveCards();
+  showToast("存档已创建，请点击该存档的“进入”按钮");
+}
+
+$("create-save-button").addEventListener("click",createSave);
+$("save-form").addEventListener("submit",createSave);
+
+$("save-grid").addEventListener("click",event=>{
+  const card=event.target.closest(".save-card");
+  if(!card)return;
+
+  const id=card.dataset.saveId;
+
+  if(event.target.closest("[data-delete-save]")){
+    const list=getSaveList().filter(item=>item.id!==id);
+
+    writeSaveList(list);
+    removeStored(stateKey("pig",id));
+    removeStored(stateKey("bingo",id));
+    removeStored(stateKey("travel",id));
+    removeStored(stateKey("blackhole",id));
+    removeStored("guagua-game-state-malig ua-"+id);
+    removeStored("guagua-game-state-maligua-"+id);
+    removeStored("guagua-bingo-state-goldbingo-"+id);
+
+    if(activeSaveId===id)activeSaveId="";
+
+    renderSaveCards();
+    showToast("存档已删除");
+    return;
+  }
+
+  if(event.target.closest("[data-enter-save]")){
+    enterSave(id);
+  }
+});
+
+/* 小猪出逃日记 */
+function freshJourney(){
+  return{
+    position:0,
+    coins:20,
+    earnedW:0,
+    exchanged:0,
+    turns:0,
+    plan:3,
+    visited:[],
+    history:[],
+    sound:true,
+    eventTitle:"准备出发",
+    eventText:"录入哈弗币兑换金币，然后掷骰前进。"
+  };
+}
+
+function normalizeJourney(raw){
+  const result=freshJourney();
+
+  if(!raw||typeof raw!=="object"||Array.isArray(raw)){
+    return result;
+  }
+
+  result.position=clamp(Math.trunc(finiteNumber(raw.position)),0,places.length-1);
+  result.coins=finiteNumber(raw.coins,20);
+
+  result.earnedW=raw.earnedW!==undefined
+    ?Math.max(0,finiteNumber(raw.earnedW))
+    :Math.max(0,finiteNumber(raw.earned)*10);
+
+  result.exchanged=Math.max(0,finiteNumber(raw.exchanged));
+  result.turns=Math.max(0,Math.trunc(finiteNumber(raw.turns)));
+  result.plan=[3,6,9].includes(Number(raw.plan))?Number(raw.plan):3;
+
+  result.visited=Array.isArray(raw.visited)
+    ?[...new Set(raw.visited.map(Number).filter(
+      index=>Number.isInteger(index)&&index>0&&index<places.length
+    ))]
+    :[];
+
+  result.history=Array.isArray(raw.history)
+    ?raw.history.filter(item=>typeof item==="string").slice(-200)
+    :[];
+
+  result.sound=raw.sound!==false;
+  result.eventTitle=typeof raw.eventTitle==="string"?raw.eventTitle:result.eventTitle;
+  result.eventText=typeof raw.eventText==="string"?raw.eventText:result.eventText;
+
+  return result;
+}
+
+let journeyState=freshJourney();
+
+const dicePips={
+  1:[5],
+  2:[1,9],
+  3:[1,5,9],
+  4:[1,3,7,9],
+  5:[1,3,5,7,9],
+  6:[1,3,4,6,7,9]
+};
+
+function pipMarkup(value){
+  return Array.from({length:9},(_,index)=>{
+    return '<i class="pip '+(
+      dicePips[value].includes(index+1)?"active":""
+    )+'"></i>';
+  }).join("");
+}
+
+function buildDice(value=1){
+  const faces=[
+    ["front",value],
+    ["back",6],
+    ["right",3],
+    ["left",4],
+    ["top",5],
+    ["bottom",2]
+  ];
+
+  $("dice-cube").className="dice-cube";
+  $("dice-cube").innerHTML=faces.map(([side,number])=>{
+    return '<span class="dice-face '+side+'">'+pipMarkup(number)+"</span>";
+  }).join("");
+}
+
+function playDiceSound(){
+  if(!journeyState.sound)return;
+
+  try{
+    const AudioClass=window.AudioContext||window.webkitAudioContext;
+    if(!AudioClass)return;
+
+    if(!audioContext)audioContext=new AudioClass();
+
+    if(audioContext.state==="suspended"){
+      audioContext.resume().catch(()=>{});
+    }
+
+    const start=audioContext.currentTime;
+
+    for(let index=0;index<5;index++){
+      const oscillator=audioContext.createOscillator();
+      const gain=audioContext.createGain();
+      const time=start+index*.09;
+
+      oscillator.type="triangle";
+      oscillator.frequency.value=230+index*55;
+
+      gain.gain.setValueAtTime(.035,time);
+      gain.gain.exponentialRampToValueAtTime(.001,time+.06);
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start(time);
+      oscillator.stop(time+.07);
+    }
+  }catch(error){}
+}
+
+function setJourneyMessage(title,text){
+  journeyState.eventTitle=title;
+  journeyState.eventText=text;
+  $("event-title").textContent=title;
+  $("event-copy").textContent=text;
+}
+
+function addJourneyHistory(text){
+  journeyState.history.push(text);
+  journeyState.history=journeyState.history.slice(-200);
+}
+
+function renderJourneyBoard(){
+  $("board").replaceChildren();
+
+  for(let row=0;row<4;row++){
+    const rowElement=document.createElement("div");
+    rowElement.className="board-row";
+
+    for(let column=0;column<6;column++){
+      const index=row*6+column;
+      const place=places[index];
+      const cell=document.createElement("button");
+
+      cell.type="button";
+      cell.className="cell "+place[2];
+      cell.dataset.place=String(index);
+
+      if(journeyState.visited.includes(index)){
+        cell.classList.add("visited");
+      }
+
+      if(journeyState.position===index){
+        cell.classList.add("current");
+      }
+
+      cell.innerHTML=`
+        <span class="cell-no">Q${String(index).padStart(2,"0")}</span>
+        <h3>${place[0]}</h3>
+        <p>${place[1]}</p>
+        ${journeyState.position===index?'<span class="token">🐷</span>':""}
+      `;
+
+      rowElement.appendChild(cell);
+    }
+
+    $("board").appendChild(rowElement);
+  }
+}
+
+function renderJourney(){
+  const plan=planData[journeyState.plan];
+  const count=journeyState.visited.length;
+
+  $("earned").textContent=journeyState.earnedW+"W";
+  $("exchanged").textContent=String(journeyState.exchanged);
+  $("coins").textContent=String(journeyState.coins);
+  $("turns").textContent=String(journeyState.turns);
+  $("position-label").textContent=places[journeyState.position][0];
+  $("checked-count").textContent="已打卡 "+count+"/23";
+
+  $("journey-title").textContent=
+    plan.name+" · 已打卡 "+Math.min(count,plan.target)+"/"+plan.target;
+
+  $("progress-bar").style.width=
+    Math.min(100,count/plan.target*100)+"%";
+
+  $("event-title").textContent=journeyState.eventTitle;
+  $("event-copy").textContent=journeyState.eventText;
+  $("sound-button").textContent=journeyState.sound?"🔊 声音":"🔇 静音";
+
+  const cannotRoll=Boolean(pendingRoll)||journeyState.coins<=0||journeyState.position===places.length-1;
+
+  $("roll-button").disabled=cannotRoll;
+  $("start-journey-button").disabled=cannotRoll;
+
+  document.querySelectorAll("[data-plan]").forEach(button=>{
+    const active=Number(button.dataset.plan)===journeyState.plan;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+  });
+
+  $("record-title").textContent=journeyState.history.length
+    ?"已记录 "+journeyState.history.length+" 次操作"
+    :"还没有游戏记录";
+
+  $("record-list").replaceChildren();
+
+  if(journeyState.history.length){
+    for(const text of journeyState.history.slice().reverse()){
+      const item=document.createElement("li");
+      item.textContent=text;
+      $("record-list").appendChild(item);
+    }
+  }else{
+    const item=document.createElement("li");
+    item.textContent="掷出骰子后，记录会显示在这里。";
+    $("record-list").appendChild(item);
+  }
+
+  renderJourneyBoard();
+}
+
+function saveJourney(notify=false){
+  if(!activeSaveId)return;
+
+  const persisted=writeJSON(stateKey("pig"),journeyState);
+
+  updateSaveSummary(
+    "pig",
+    activeSaveId,
+    "金币 "+journeyState.coins+" · 已打卡 "+journeyState.visited.length+" 个地点"
+  );
+
+  if(notify){
+    showToast(persisted
+      ?"当前存档进度已保存"
+      :"进度已保留在当前会话中"
+    );
+  }
+}
+
+function completeRoll(){
+  if(!pendingRoll)return;
+
+  const result=pendingRoll.value;
+
+  pendingRoll=null;
+  clearTimeout(rollTimer);
+  rollTimer=null;
+
+  buildDice(result);
+
+  journeyState.position=Math.min(
+    places.length-1,
+    journeyState.position+result
+  );
+
+  const place=places[journeyState.position];
+
+  if(journeyState.position>0){
+    journeyState.visited=[
+      ...new Set([
+        ...journeyState.visited,
+        journeyState.position
+      ])
+    ];
+  }
+
+  let message="掷出 "+result+" 点，抵达"+place[0];
+
+  if(place[2]==="reward"){
+    const cost=parseInt(place[1],10)||0;
+    journeyState.coins-=cost;
+    message+="，扣除 "+cost+" 金币";
+  }else if(place[2]==="event"){
+    message+="，命运随机事件，金币不变";
+  }else if(place[2]==="finish"){
+    message+="，恭喜完成旅行！";
+  }
+
+  addJourneyHistory("第 "+journeyState.turns+" 次："+message);
+  setJourneyMessage(place[0],message);
+  renderJourney();
+  saveJourney();
+  showToast(message);
+}
+
+function rollJourney(){
+  if(pendingRoll)return;
+
+  if(journeyState.position===places.length-1){
+    showToast("旅程已完成，可重置当前旅程");
+    return;
+  }
+
+  if(journeyState.coins<=0){
+    setJourneyMessage("金币不足","请先兑换或补充金币，再继续掷骰。");
+    showToast("金币不足，无法继续掷骰");
+    return;
+  }
+
+  const value=Math.floor(Math.random()*6)+1;
+  journeyState.turns+=1;
+  pendingRoll={value};
+
+  renderJourney();
+  $("dice-cube").classList.add("rolling");
+  playDiceSound();
+  rollTimer=setTimeout(completeRoll,900);
+}
+
+function resetJourney(){
+  clearTimeout(rollTimer);
+  rollTimer=null;
+  pendingRoll=null;
+
+  journeyState=freshJourney();
+
+  $("habi").value="800";
+  $("delta").value="20";
+  $("reason").value="";
+
+  buildDice();
+  renderJourney();
+  saveJourney();
+  showToast("当前存档的旅程已重置");
+}
+
+$("board").addEventListener("click",event=>{
+  const cell=event.target.closest("[data-place]");
+  if(!cell)return;
+
+  const place=places[Number(cell.dataset.place)];
+  $("event-title").textContent=place[0];
+  $("event-copy").textContent=place[1];
+  showToast(place[0]+"："+place[1]);
+});
+
+$("roll-button").addEventListener("click",rollJourney);
+$("start-journey-button").addEventListener("click",rollJourney);
+
+$("exchange-button").addEventListener("click",()=>{
+  const amount=Math.max(0,Math.trunc(finiteNumber($("habi").value)));
+  const coins=Math.floor(amount/100)*10;
+
+  if(coins<=0){
+    showToast("哈弗币不足 100W，无法兑换");
+    return;
+  }
+
+  journeyState.earnedW+=amount;
+  journeyState.exchanged+=coins;
+  journeyState.coins+=coins;
+
+  addJourneyHistory("兑换 "+amount+"W，获得 "+coins+" 金币");
+  setJourneyMessage("兑换成功","获得 "+coins+" 金币，当前金币 "+journeyState.coins);
+  renderJourney();
+  saveJourney();
+  showToast("兑换成功，获得 "+coins+" 金币");
+});
+
+$("adjust-button").addEventListener("click",()=>{
+  const raw=$("delta").value.trim();
+  const value=Number(raw);
+
+  if(raw===""||!Number.isFinite(value)||!Number.isInteger(value)||value===0){
+    showToast("请输入非零整数，可用负数扣除金币");
+    return;
+  }
+
+  const reason=$("reason").value.trim()||"金币调整";
+  journeyState.coins+=value;
+
+  const text=reason+"："+(value>0?"+":"")+value+" 金币";
+
+  addJourneyHistory(text);
+  setJourneyMessage("金币已调整",text);
+  renderJourney();
+  saveJourney();
+  showToast(text);
+});
+
+document.querySelectorAll("[data-plan]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    journeyState.plan=Number(button.dataset.plan);
+    renderJourney();
+    saveJourney();
+    showToast("已切换到"+planData[journeyState.plan].name);
+  });
+});
+
+$("save-progress-button").addEventListener("click",()=>{
+  completeRoll();
+  saveJourney(true);
+});
+
+$("load-progress-button").addEventListener("click",()=>{
+  if(pendingRoll){
+    showToast("请等待骰子停止后再读取存档");
+    return;
+  }
+
+  const saved=readProgress("pig",activeSaveId);
+
+  if(!saved){
+    showToast("这个存档暂无可读取的进度");
+    return;
+  }
+
+  journeyState=normalizeJourney(saved);
+  buildDice();
+  renderJourney();
+  showToast("已读取当前存档进度");
+});
+
+$("reset-progress-button").addEventListener("click",resetJourney);
+$("reset-page-button").addEventListener("click",resetJourney);
+
+$("skip-button").addEventListener("click",()=>{
+  showToast("本次已跳过，没有消耗游园机会");
+});
+
+$("sound-button").addEventListener("click",()=>{
+  journeyState.sound=!journeyState.sound;
+  renderJourney();
+  saveJourney();
+  showToast(journeyState.sound?"声音已开启":"声音已关闭");
+});
+
+$("back-pig-save").addEventListener("click",()=>{
+  completeRoll();
+  saveJourney();
+  renderSaveCards();
+  showPage("save");
+});
+
+/* 航天黑洞 · 老板端 / 打手端 */
+const blackholePlaces=["宿舍","西大","中控","二员","牢大","牢二","牢三","发射"];
+const blackholeSealOptions=[4,5,6,7];
+function blackholeSealCount(){return blackholeSealOptions.includes(Number(blackholeState.blackholeTarget))?Number(blackholeState.blackholeTarget):4;}
+let blackholeState={round:1,phase:"seal",sealed:[],records:[],logs:[]};
+let blackholeRole="boss";
+let blackholeWorkerPlace="";
+let blackholePendingAction=null;
+let blackholeChannel=null;
+let blackholeZoom=1;
+let blackholeAnimating=false;
+let blackholeTravelAnimation=null;
+let blackholeAnimationToken=0;
+let blackholeStartOverlayTimer=null;
+// 地图红色编号 1 的中心位置（按地图画布百分比）。
+const blackholeStartPoint={x:.47,y:.37};
+const blackholeZoneGifSize=88;
+function renderBlackholeZoom(){
+  const canvas=$("blackhole-map-canvas");
+  if(!canvas)return;
+  const zoom=clamp(blackholeZoom,1,2.5);
+  blackholeZoom=zoom;
+  canvas.style.width=(zoom*100)+"%";
+  canvas.style.height=(zoom*100)+"%";
+  $("blackhole-zoom-label").textContent=Math.round(zoom*100)+"%";
+}
+function setBlackholeZoom(value){blackholeZoom=clamp(Math.round(value*10)/10,1,2.5);renderBlackholeZoom()}
+
+function freshBlackhole(){
+  return{version:1,round:1,phase:"seal",sealed:[],records:[],logs:[],blackholeTarget:4,nonBlackholeTarget:2};
+}
+
+function normalizeBlackhole(raw){
+  const result=freshBlackhole();
+  if(!raw||typeof raw!=="object"||Array.isArray(raw))return result;
+  result.round=Math.max(1,Math.trunc(finiteNumber(raw.round,1)));
+  result.blackholeTarget=blackholeSealOptions.includes(Number(raw.blackholeTarget))?Number(raw.blackholeTarget):4;
+  result.nonBlackholeTarget=[2,3].includes(Number(raw.nonBlackholeTarget))?Number(raw.nonBlackholeTarget):result.blackholeTarget===4?2:3;
+  result.sealed=Array.isArray(raw.sealed)?[...new Set(raw.sealed.filter(place=>blackholePlaces.includes(place)))].slice(0,result.blackholeTarget):[];
+  result.phase=(raw.phase==="worker"||raw.phase==="await-next")&&result.sealed.length===result.blackholeTarget?raw.phase:"seal";
+  result.records=Array.isArray(raw.records)?raw.records.filter(record=>record&&blackholePlaces.includes(record.place)).map(record=>({
+    id:String(record.id||makeId()),
+    round:Math.max(1,Math.trunc(finiteNumber(record.round,1))),
+    place:record.place,
+    income:Math.max(0,Math.trunc(finiteNumber(record.income))),
+    outcome:record.outcome==="failure"?"failure":"success",
+    sealed:Boolean(record.sealed),
+    counted:Boolean(record.counted),
+    time:String(record.time||"")
+  })):[];
+  result.logs=Array.isArray(raw.logs)?raw.logs.map(String).slice(0,100):[];
+  return result;
+}
+
+function blackholeKey(){return stateKey("blackhole",activeSaveId)}
+
+function closeBlackholeChannel(){
+  if(blackholeChannel){
+    blackholeChannel.close();
+    blackholeChannel=null;
+  }
+}
+
+function openBlackholeChannel(){
+  closeBlackholeChannel();
+  if(typeof BroadcastChannel!=="undefined"&&activeSaveId){
+    blackholeChannel=new BroadcastChannel("guagua-blackhole-"+activeSaveId);
+    blackholeChannel.onmessage=event=>{
+      if(!event.data||event.data.type!=="blackhole-state")return;
+      blackholeState=normalizeBlackhole(event.data.state);
+      renderBlackhole();
+    };
+  }
+}
+
+function saveBlackhole(){
+  if(!activeSaveId)return;
+  writeJSON(blackholeKey(),blackholeState);
+  updateSaveSummary("blackhole",activeSaveId,blackholeState.records.length?"航天黑洞 · 已有本局记录":"航天黑洞 · 尚未开始");
+  if(blackholeChannel){
+    blackholeChannel.postMessage({type:"blackhole-state",state:blackholeState});
+  }
+}
+
+function loadBlackhole(){
+  cancelBlackholeTravel();
+  const saved=readProgress("blackhole",activeSaveId);
+  blackholeState=normalizeBlackhole(saved);
+  blackholeRole="boss";
+  blackholeWorkerPlace="";
+  openBlackholeChannel();
+  blackholeZoom=1;
+  renderBlackhole();
+  renderBlackholeZoom();
+}
+
+function blackholeRecordsFor(place){
+  return blackholeState.records.filter(record=>record.place===place);
+}
+
+function blackholeStatsFor(place){
+  const records=blackholeRecordsFor(place);
+  return{
+    success:records.filter(record=>record.outcome==="success").length,
+    failure:records.filter(record=>record.outcome==="failure").length,
+    income:records.filter(record=>record.outcome==="success").reduce((sum,record)=>sum+record.income,0),
+    counted:records.some(record=>record.counted)
+  };
+}
+
+function blackholeCountedPlaces(){
+  return new Set(blackholeState.records.filter(record=>record.counted).map(record=>record.place)).size;
+}
+
+function blackholeTotalIncome(){
+  return blackholeState.records.reduce((sum,record)=>{
+    return sum+(record.outcome==="failure"?-60:finiteNumber(record.income));
+  },0);
+}
+
+function cancelBlackholeTravel(){
+  blackholeAnimationToken+=1;
+  if(blackholeTravelAnimation){
+    blackholeTravelAnimation.animations.forEach(animation=>{
+      try{animation.cancel()}catch(error){}
+    });
+    blackholeTravelAnimation.timers.forEach(timer=>clearTimeout(timer));
+    blackholeTravelAnimation.gifs.forEach(gif=>gif.remove());
+    blackholeTravelAnimation=null;
+  }
+  document.querySelectorAll(".blackhole-travel-gif").forEach(gif=>gif.remove());
+  blackholeAnimating=false;
+}
+
+function getBlackholePlaceButton(place){
+  return Array.from(document.querySelectorAll("[data-blackhole-place]")).find(button=>button.dataset.blackholePlace===place)||null;
+}
+
+function animateBlackholeTravel(places,done){
+  const canvas=$("blackhole-map-canvas");
+  const destinations=(Array.isArray(places)?places:[places])
+    .map(getBlackholePlaceButton)
+    .filter(Boolean);
+  if(!canvas||!destinations.length){
+    done();
+    return;
+  }
+
+  const token=++blackholeAnimationToken;
+  const tracker={animations:[],timers:[],gifs:[]};
+  blackholeTravelAnimation=tracker;
+  const canvasRect=canvas.getBoundingClientRect();
+  const startX=canvas.clientWidth*blackholeStartPoint.x;
+  const startY=canvas.clientHeight*blackholeStartPoint.y;
+  let completed=0;
+  let finished=false;
+  const finishOne=()=>{
+    if(token!==blackholeAnimationToken||finished)return;
+    completed+=1;
+    if(completed<destinations.length)return;
+    finished=true;
+    blackholeTravelAnimation=null;
+    tracker.gifs.forEach(gif=>gif.remove());
+    done();
+  };
+
+  destinations.forEach((destination,index)=>{
+    const gif=document.createElement("img");
+    gif.src="xiaozhu1.gif";
+    gif.alt="";
+    gif.className="blackhole-travel-gif";
+    tracker.gifs.push(gif);
+    canvas.appendChild(gif);
+
+    const destinationRect=destination.getBoundingClientRect();
+    const targetX=destinationRect.left+destinationRect.width/2-canvasRect.left;
+    const targetY=destinationRect.bottom+5+blackholeZoneGifSize/2-canvasRect.top;
+    const middleX=(startX+targetX)/2;
+    const middleY=(startY+targetY)/2-Math.max(30,Math.min(80,canvas.clientHeight*.04));
+    const startFrame={left:startX+"px",top:startY+"px",transform:"translate(-50%,-50%) scale(.72)",opacity:"1"};
+    const middleFrame={left:middleX+"px",top:middleY+"px",transform:"translate(-50%,-50%) scale(1.04)",opacity:"1"};
+    const endFrame={left:targetX+"px",top:targetY+"px",transform:"translate(-50%,-50%) scale(1)",opacity:"1"};
+    gif.style.left=startFrame.left;
+    gif.style.top=startFrame.top;
+    gif.style.transform=startFrame.transform;
+    const delay=index*180;
+    const timer=setTimeout(()=>{
+      if(token!==blackholeAnimationToken)return;
+      gif.style.left=startFrame.left;
+      gif.style.top=startFrame.top;
+      gif.style.transform=startFrame.transform;
+      void gif.offsetWidth;
+
+      if(typeof gif.animate==="function"){
+        const animation=gif.animate(
+          [startFrame,middleFrame,endFrame],
+          {duration:2200,easing:"ease-in-out",fill:"forwards"}
+        );
+        tracker.animations.push(animation);
+        animation.onfinish=finishOne;
+        animation.oncancel=()=>{};
+      }else{
+        gif.style.transition="left 2200ms ease-in-out, top 2200ms ease-in-out, transform 2200ms ease-in-out";
+        requestAnimationFrame(()=>{
+          if(token!==blackholeAnimationToken)return;
+          gif.style.left=endFrame.left;
+          gif.style.top=endFrame.top;
+          gif.style.transform=endFrame.transform;
+        });
+        const fallbackTimer=setTimeout(finishOne,2250);
+        tracker.timers.push(fallbackTimer);
+      }
+    },delay);
+    tracker.timers.push(timer);
+  });
+}
+
+function renderBlackholeChoiceList(id,mode){
+  const container=$(id);
+  if(!container)return;
+  container.replaceChildren();
+  const revealSealed=blackholeRole==="boss"||(blackholeRole==="worker"&&blackholeState.phase==="await-next");
+  blackholePlaces.forEach(place=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="blackhole-place-choice";
+    button.dataset.blackholeChoice=place;
+    button.dataset.blackholeChoiceMode=mode;
+    button.textContent=place;
+    if(mode==="seal"){
+      button.classList.toggle("selected",blackholeState.sealed.includes(place));
+      button.disabled=blackholeState.phase!=="seal";
+    }else{
+      button.classList.toggle("selected",blackholeWorkerPlace===place);
+      button.classList.toggle("sealed",revealSealed&&blackholeState.sealed.includes(place));
+      button.disabled=blackholeState.phase!=="worker";
+    }
+    container.appendChild(button);
+  });
+}
+
+function renderBlackhole(){
+  const roundTitle=$("blackhole-round-title");
+  const phase=$("blackhole-phase");
+  const topRole=$("blackhole-top-role");
+  const sealCount=$("blackhole-seal-count");
+  const confirm=$("blackhole-seal-confirm");
+  if(!roundTitle)return;
+  $("blackhole-target-summary").textContent="航天基地 · "+blackholeState.blackholeTarget+" 个黑洞 · 非黑洞 "+blackholeState.nonBlackholeTarget+" 次";
+  roundTitle.textContent="第 "+blackholeState.round+" 轮";
+  phase.textContent=blackholeState.phase==="seal"?"等待老板端封存":blackholeState.phase==="worker"?"打手端可提交":"等待老板端开启下一轮";
+  topRole.textContent="当前："+(blackholeRole==="boss"?"老板端":"打手端");
+  $("blackhole-total-income").textContent=blackholeTotalIncome()+"W";
+  $("blackhole-counted-count").textContent=String(blackholeCountedPlaces());
+  const sealTarget=blackholeSealCount();
+  sealCount.textContent=blackholeState.sealed.length+" / "+sealTarget;
+  confirm.disabled=blackholeState.phase!=="seal"||blackholeState.sealed.length!==sealTarget;
+  $("blackhole-random-start").disabled=blackholeState.phase!=="seal";
+  $("blackhole-next-round").disabled=blackholeState.phase!=="await-next";
+  $("blackhole-worker-phase").textContent=blackholeState.phase==="worker"?"可以提交":blackholeState.phase==="await-next"?"等待下一轮":"等待封存";
+  $("blackhole-boss-panel").classList.toggle("hidden",blackholeRole!=="boss");
+  $("blackhole-worker-panel").classList.toggle("hidden",blackholeRole!=="worker");
+  const revealSealed=blackholeRole==="boss"||(blackholeRole==="worker"&&blackholeState.phase==="await-next");
+  $("blackhole-side-note").textContent=blackholeState.phase==="seal"?"老板端先封存 "+sealTarget+" 个地点。":blackholeState.phase==="worker"?"选择地点并提交本局哈弗币，提交后公布本轮黑洞。":"本轮黑洞已公布，等待老板端开启下一轮。";
+  $("blackhole-map-hint").textContent=blackholeAnimating&&blackholeRole==="boss"?"小猪正在前往随机地点":blackholeRole==="boss"?"紫色黑洞代表本轮已封存地点":revealSealed?"本轮黑洞已公布":"选择地点后输入本局哈弗币提交";
+  document.querySelectorAll("[data-blackhole-role]").forEach(button=>{
+    button.classList.toggle("active",button.dataset.blackholeRole===blackholeRole);
+  });
+  renderBlackholeChoiceList("blackhole-seal-list","seal");
+  renderBlackholeChoiceList("blackhole-worker-place-list","worker");
+
+  document.querySelectorAll("[data-blackhole-place]").forEach(button=>{
+    const place=button.dataset.blackholePlace;
+    const stats=blackholeStatsFor(place);
+    const sealed=blackholeState.sealed.includes(place);
+    const oldGif=button.querySelector("[data-blackhole-gif]");
+    if(oldGif)oldGif.remove();
+    if(blackholeRole==="boss"&&!sealed&&!blackholeAnimating&&blackholeState.phase!=="seal"){
+      const gif=document.createElement("img");
+      gif.src="xiaozhu1.gif";
+      gif.alt="";
+      gif.className="blackhole-zone-gif";
+      gif.dataset.blackholeGif="true";
+      button.appendChild(gif);
+    }
+    button.classList.toggle("sealed",revealSealed&&sealed);
+    button.classList.toggle("selected",blackholeWorkerPlace===place&&blackholeRole==="worker");
+    button.classList.toggle("counted",revealSealed&&stats.counted&&!sealed);
+    button.classList.toggle("failed",revealSealed&&!stats.counted&&stats.failure>0&&!sealed);
+    const small=button.querySelector("small");
+    if(small)small.textContent="成功 "+stats.success+" · 失败 "+stats.failure+(revealSealed&&sealed?" · 已封存":"");
+  });
+
+  const recordList=$("blackhole-record-list");
+  recordList.replaceChildren();
+  if(!blackholeState.records.length){
+    const empty=document.createElement("div");
+    empty.className="blackhole-record";
+    empty.textContent="暂无打手端记录";
+    recordList.appendChild(empty);
+  }else{
+    blackholeState.records.slice(0,40).forEach(record=>{
+      const item=document.createElement("div");
+      const showSeal=revealSealed&&record.sealed;
+      const showCounted=revealSealed&&record.counted;
+      item.className="blackhole-record"+(showSeal?" sealed":"")+(showCounted?" counted":"")+(!showCounted&&showSeal?" not-counted":"");
+      const status=!revealSealed?"已提交":showSeal?"已封存 · 不计入":showCounted?"有效计入":"未达标";
+      item.innerHTML="<b>第 "+record.round+" 轮 · "+record.place+"</b><small>"+(record.outcome==="failure"?"撤离失败":("撤离成功 · "+record.income+"W"))+" · "+status+"</small>";
+      recordList.appendChild(item);
+    });
+  }
+}
+
+function chooseBlackholeRole(role){
+  if(role!=="boss"&&role!=="worker")return;
+  blackholeRole=role;
+  renderBlackhole();
+}
+
+function toggleBlackholeSeal(place){
+  if(blackholeState.phase!=="seal"){
+    showToast("本轮已封存，点击“开启下一轮布置”后再选择");
+    return;
+  }
+  if(blackholeState.sealed.includes(place)){
+    blackholeState.sealed=blackholeState.sealed.filter(item=>item!==place);
+  }else{
+    if(blackholeState.sealed.length>=blackholeSealCount()){
+      showToast("本轮最多只能封存 "+blackholeSealCount()+" 个地点");
+      return;
+    }
+    blackholeState.sealed.push(place);
+  }
+  renderBlackhole();
+}
+
+function startBlackholeRandomGame(){
+  if(blackholeState.phase!=="seal"){
+    showToast("本轮已经开始，等待打手端提交记录");
+    return;
+  }
+
+  const overlay=$("blackhole-start-overlay");
+  const button=$("blackhole-random-start");
+  if(blackholeStartOverlayTimer||overlay.classList.contains("show"))return;
+  button.disabled=true;
+  overlay.classList.add("show");
+  overlay.setAttribute("aria-hidden","false");
+  blackholeStartOverlayTimer=setTimeout(()=>{
+    blackholeStartOverlayTimer=null;
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden","true");
+    runBlackholeRandomGame();
+  },2000);
+}
+
+function runBlackholeRandomGame(){
+  if(blackholeState.phase!=="seal")return;
+
+  cancelBlackholeTravel();
+  const target=blackholeSealCount();
+  blackholeState.sealed=shuffle(blackholePlaces).slice(0,target);
+  blackholeState.phase="worker";
+  blackholeWorkerPlace="";
+  blackholeAnimating=true;
+  blackholeState.logs.unshift("第 "+blackholeState.round+" 轮系统随机封存："+blackholeState.sealed.join("、"));
+  saveBlackhole();
+  renderBlackhole();
+  const available=blackholePlaces.filter(place=>!blackholeState.sealed.includes(place));
+  showToast("游戏开始，小猪正在前往随机地点");
+  animateBlackholeTravel(shuffle(available),()=>{
+    blackholeAnimating=false;
+    renderBlackhole();
+    showToast("系统已随机封存 "+target+" 个地点");
+  });
+}
+
+function openBlackholeModal(action){
+  blackholePendingAction=action;
+  const modal=$("blackhole-modal");
+  const list=$("blackhole-modal-list");
+  list.replaceChildren();
+  const title=$("blackhole-modal-title");
+  const copy=$("blackhole-modal-copy");
+  if(action.type==="seal"){
+    title.textContent="确认本轮黑洞地点";
+    copy.textContent="确认后进入打手端记录阶段，本轮封存地点之后仍会展示，但不会计入有效地点。";
+    action.places.forEach(place=>{const tag=document.createElement("span");tag.textContent=place;list.appendChild(tag)});
+    $("blackhole-modal-confirm").textContent="确认并封存本轮";
+  }else{
+    title.textContent=action.outcome==="failure"?"确认撤离失败":"确认成功撤离并提交";
+    copy.textContent=blackholeRole==="worker"?"提交后老板端会核验本轮地点状态并记录结果。":"这个地点本轮已封存，提交后会保留展示，但不计入有效地点。";
+    const tag=document.createElement("span");tag.textContent=action.place+" · "+(action.outcome==="failure"?"失败":action.income+"W");list.appendChild(tag);
+    $("blackhole-modal-confirm").textContent="确认并提交";
+  }
+  modal.classList.add("show");
+}
+
+function closeBlackholeModal(){
+  blackholePendingAction=null;
+  $("blackhole-modal").classList.remove("show");
+}
+
+function confirmBlackholeAction(){
+  const action=blackholePendingAction;
+  if(!action)return;
+  closeBlackholeModal();
+  if(action.type==="seal"){
+    blackholeState.phase="worker";
+    blackholeState.logs.unshift("第 "+blackholeState.round+" 轮已封存："+action.places.join("、"));
+    saveBlackhole();
+    renderBlackhole();
+    showToast("本轮已封存，打手端可以开始提交");
+    return;
+  }
+  const record={
+    id:makeId(),
+    round:blackholeState.round,
+    place:action.place,
+    income:action.outcome==="failure"?-60:action.income,
+    outcome:action.outcome,
+    sealed:action.sealed,
+    counted:action.outcome==="success"&&!action.sealed&&action.income>=688,
+    time:new Date().toLocaleTimeString("zh-CN")
+  };
+  blackholeState.records.unshift(record);
+  blackholeState.phase="await-next";
+  $("blackhole-worker-income").value="";
+  blackholeState.logs.unshift("第 "+blackholeState.round+" 轮 · "+record.place+" · "+(record.outcome==="failure"?"撤离失败":record.income+"W"));
+  saveBlackhole();
+  renderBlackhole();
+  showBlackholeResultModal(record);
+}
+
+function submitBlackholeRecord(outcome){
+  if(blackholeState.phase!=="worker"){
+    showToast(blackholeState.phase==="await-next"?"本轮已提交，等待老板端开启下一轮":"请先等待老板端完成 "+blackholeSealCount()+" 个地点封存");
+    return;
+  }
+  if(!blackholeWorkerPlace){
+    showToast("请先选择一个地点");
+    return;
+  }
+  const income=outcome==="failure"?0:Math.max(0,Math.trunc(finiteNumber($("blackhole-worker-income").value)));
+  if(outcome==="success"&&!income){
+    showToast("请输入本局哈弗币");
+    return;
+  }
+  openBlackholeModal({type:"record",outcome,place:blackholeWorkerPlace,income,sealed:blackholeState.sealed.includes(blackholeWorkerPlace)});
+}
+
+function startBlackholeNextRound(){
+  if(blackholeState.phase!=="await-next"){
+    showToast("请先完成本轮打手端记录");
+    return;
+  }
+  cancelBlackholeTravel();
+  blackholeState.round+=1;
+  blackholeState.phase="seal";
+  blackholeState.sealed=[];
+  blackholeWorkerPlace="";
+  saveBlackhole();
+  renderBlackhole();
+  showToast("已开启第 "+blackholeState.round+" 轮布置");
+}
+
+window.addEventListener("storage",event=>{
+  if(!activeSaveId||event.key!==blackholeKey()||!event.newValue)return;
+  try{
+    blackholeState=normalizeBlackhole(JSON.parse(event.newValue));
+    renderBlackhole();
+  }catch(error){}
+});
+
+/* 猪猪环游记 · 航天基地 5 处目标 */
+const travelRunPlaces=["宿舍","西大","中控","二员","牢大","牢二","牢三","火发"];
+let travelRunState={place:"宿舍",income:0,target:5,done:[],logs:[],points:{}};
+let travelRunZoom=1;
+function renderTravelRunZoom(){
+  const canvas=$("travel-run-map");
+  if(!canvas)return;
+  const zoom=clamp(travelRunZoom,1,2.5);
+  travelRunZoom=zoom;
+  canvas.style.width=(zoom*100)+"%";
+  canvas.style.height=(zoom*100)+"%";
+  $("travel-run-zoom-label").textContent=Math.round(zoom*100)+"%";
+}
+function setTravelRunZoom(value){travelRunZoom=clamp(Math.round(value*10)/10,1,2.5);renderTravelRunZoom()}
+function travelRunKey(){return "guagua-travel-run-state-"+activeSaveId}
+function loadTravelRun(target=5){const saved=readJSON(travelRunKey(),null);travelRunState=saved&&typeof saved==="object"?saved:{place:"宿舍",income:0,target:5,done:[],logs:[],points:{}};travelRunState.target=[3,5,6,7].includes(Number(target))?Number(target):Number(travelRunState.target)||5;travelRunState.place=travelRunPlaces.includes(travelRunState.place)?travelRunState.place:"宿舍";travelRunState.income=finiteNumber(travelRunState.income);travelRunState.done=Array.isArray(travelRunState.done)?[...new Set(travelRunState.done.filter(item=>travelRunPlaces.includes(item)))]:[];travelRunState.logs=Array.isArray(travelRunState.logs)?travelRunState.logs:[];travelRunState.points=travelRunState.points&&typeof travelRunState.points==="object"?travelRunState.points:{};travelRunZoom=1;renderTravelRun();renderTravelRunZoom()}
+function saveTravelRun(){if(activeSaveId)writeJSON(travelRunKey(),travelRunState)}
+function travelRunLog(text){travelRunState.logs.unshift(new Date().toLocaleTimeString("zh-CN")+"　"+text);travelRunState.logs=travelRunState.logs.slice(0,100)}
+function renderTravelRun(){$("travel-run-total").textContent=travelRunState.income+" W";$('travel-run-done').textContent=travelRunState.done.length+" / "+travelRunState.target;$('travel-run-target').textContent=travelRunState.target+" 处";$('travel-run-current').textContent=travelRunState.place;$('travel-run-point-income').textContent=(travelRunState.points[travelRunState.place]||0)+" W";$('travel-run-places').replaceChildren();travelRunPlaces.forEach(place=>{const button=document.createElement("button");button.type="button";button.className="travel-run-place";button.dataset.runPlaceChoice=place;button.textContent=place;button.classList.toggle("active",place===travelRunState.place);$('travel-run-places').appendChild(button)});document.querySelectorAll("[data-run-place]").forEach(button=>{const active=button.dataset.runPlace===travelRunState.place;button.classList.toggle("selected",active);const b=button.querySelector("b");if(b)b.textContent=(travelRunState.points[button.dataset.runPlace]||0)+"W"});$('travel-run-log-button').textContent="操作记录 · "+travelRunState.logs.length+" 局";$('travel-run-clock').textContent=new Date().toLocaleTimeString("zh-CN")}
+function chooseTravelRunPlace(place){if(!travelRunPlaces.includes(place))return;travelRunState.place=place;renderTravelRun();saveTravelRun()}
+$('travel-run-places').addEventListener("click",event=>{const button=event.target.closest("[data-run-place-choice]");if(button)chooseTravelRunPlace(button.dataset.runPlaceChoice)});
+document.querySelectorAll("[data-run-place]").forEach(button=>button.addEventListener("click",()=>chooseTravelRunPlace(button.dataset.runPlace)));
+$('travel-run-record').addEventListener("click",()=>{const amount=Math.max(0,Math.trunc(finiteNumber($('travel-run-amount').value)));if($('travel-run-reroll').checked){showToast("本局重投暂未启用");return}if(!amount){showToast("请输入本局撤离收益");return}travelRunState.income+=amount;travelRunState.points[travelRunState.place]=(travelRunState.points[travelRunState.place]||0)+amount;if(amount>=688&&!travelRunState.done.includes(travelRunState.place))travelRunState.done.push(travelRunState.place);travelRunLog(travelRunState.place+" 获得 "+amount+"W");$('travel-run-amount').value="";renderTravelRun();saveTravelRun()});
+$('travel-run-success').addEventListener("click",()=>{const amount=Math.max(0,Math.trunc(finiteNumber($('travel-run-amount').value)));if(!amount){showToast("请输入本局撤离收益");return}travelRunState.income+=amount;travelRunState.points[travelRunState.place]=(travelRunState.points[travelRunState.place]||0)+amount;if(amount>=688&&!travelRunState.done.includes(travelRunState.place))travelRunState.done.push(travelRunState.place);travelRunLog(travelRunState.place+" 撤离成功，获得 "+amount+"W");$('travel-run-amount').value="";renderTravelRun();saveTravelRun();showToast("撤离成功，收益已记录")});
+$('travel-run-failure').addEventListener("click",()=>{travelRunState.income-=60;travelRunLog(travelRunState.place+" 撤离失败，扣除60W");renderTravelRun();saveTravelRun();showToast("撤离失败，已扣除60W")});
+$('travel-run-log-button').addEventListener("click",()=>{ $('travel-run-log-list').innerHTML=travelRunState.logs.map(item=>"<li>"+item+"</li>").join("");$('travel-run-log-modal').classList.add("show")});
+$('travel-run-help-button').addEventListener("click",()=>$('travel-run-help-modal').classList.add("show"));
+$('travel-run-help-close').addEventListener("click",()=>$('travel-run-help-modal').classList.remove("show"));
+$('travel-run-log-close').addEventListener("click",()=>$('travel-run-log-modal').classList.remove("show"));
+$('travel-run-zoom-in').addEventListener("click",()=>setTravelRunZoom(travelRunZoom+.1));
+$('travel-run-zoom-out').addEventListener("click",()=>setTravelRunZoom(travelRunZoom-.1));
+$('travel-run-zoom-reset').addEventListener("click",()=>setTravelRunZoom(1));
+$('travel-run-map-area').addEventListener("wheel",event=>{
+  event.preventDefault();
+  setTravelRunZoom(travelRunZoom+(event.deltaY<0?.1:-.1));
+},{passive:false});
+
+/* 随机金 Bingo */
+const BINGO_WIDTH=7;
+const BINGO_HEIGHT=8;
+const BINGO_SIZE=56;
+const BINGO_ASSET_COUNT=32;
+
+function freshBingo(){
+  return{
+    version:4,
+    rule:3,
+    started:false,
+    round:1,
+    cells:Array.from({length:BINGO_SIZE},(_,index)=>index),
+    candidates:[],
+    selectedCandidate:0,
+    marked:[],
+    markedAreIds:true,
+    earned:0,
+    refreshes:0,
+    winShown:false,
+    swapMode:false,
+    swapSelection:[],
+    rewardChoice:"self"
+  };
+}
+
+let bingoState=freshBingo();
+
+function shuffle(list){
+  const result=list.slice();
+
+  for(let index=result.length-1;index>0;index--){
+    const random=Math.floor(Math.random()*(index+1));
+    [result[index],result[random]]=[result[random],result[index]];
+  }
+
+  return result;
+}
+
+function newBingoBoard(){
+  return shuffle(
+    Array.from({length:BINGO_SIZE},(_,index)=>index)
+  );
+}
+
+function validateBoard(raw){
+  if(!Array.isArray(raw)||raw.length!==BINGO_SIZE)return null;
+
+  const values=raw.map(Number);
+
+  if(
+    new Set(values).size!==BINGO_SIZE||
+    !values.every(value=>Number.isInteger(value)&&value>=0&&value<BINGO_SIZE)
+  ){
+    return null;
+  }
+
+  return values;
+}
+
+function normalizeBingo(raw){
+  const result=freshBingo();
+
+  if(!raw||typeof raw!=="object"||Array.isArray(raw)){
+    return result;
+  }
+
+  result.rule=[3,4,5].includes(Number(raw.rule))
+    ?Number(raw.rule)
+    :3;
+
+  result.started=Boolean(raw.started);
+  result.cells=validateBoard(raw.cells)||result.cells;
+
+  result.candidates=Array.isArray(raw.candidates)
+    ?raw.candidates.map(validateBoard).filter(Boolean).slice(0,3)
+    :[];
+
+  if(result.started&&!result.candidates.length){
+    result.candidates=[result.cells.slice()];
+  }
+
+  result.selectedCandidate=result.candidates.length
+    ?clamp(Math.trunc(finiteNumber(raw.selectedCandidate)),0,result.candidates.length-1)
+    :0;
+
+  if(result.started&&result.candidates.length){
+    result.candidates[result.selectedCandidate]=result.cells.slice();
+  }
+
+  const marked=Array.isArray(raw.marked)?raw.marked.map(Number):[];
+
+  result.marked=raw.markedAreIds===true
+    ?marked
+    :marked.map(index=>result.cells[index]);
+
+  result.marked=[
+    ...new Set(
+      result.marked.filter(value=>{
+        return Number.isInteger(value)&&value>=0&&value<BINGO_SIZE;
+      })
+    )
+  ];
+
+  result.markedAreIds=true;
+  result.round=result.selectedCandidate+1;
+  result.refreshes=Math.max(0,result.candidates.length-1);
+  result.earned=Math.max(0,finiteNumber(raw.earned));
+  result.winShown=Boolean(raw.winShown);
+  result.swapMode=!result.winShown&&Boolean(raw.swapMode);
+
+  result.swapSelection=Array.isArray(raw.swapSelection)
+    ?[...new Set(
+      raw.swapSelection.map(Number).filter(
+        value=>Number.isInteger(value)&&value>=0&&value<BINGO_SIZE
+      )
+    )].slice(0,1)
+    :[];
+
+  if(!result.swapMode)result.swapSelection=[];
+
+  result.rewardChoice=raw.rewardChoice==="hand"||raw.rewardChoice==="second"
+    ?"hand"
+    :"self";
+
+  return result;
+}
+
+function loadBingo(){
+  bingoState=normalizeBingo(
+    readProgress("bingo",activeSaveId)
+  );
+
+  document.querySelectorAll("[data-bingo-rule]").forEach(button=>{
+    const active=Number(button.dataset.bingoRule)===bingoState.rule;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+  });
+
+  $("bingo-start-button").textContent=
+    "确认 "+bingoState.rule+" 连规则并开局";
+}
+
+function saveBingo(){
+  if(!activeSaveId)return;
+
+  writeJSON(stateKey("bingo"),bingoState);
+
+  const summary=bingoState.started
+    ?bingoState.rule+" 连 · 已标记 "+bingoState.marked.length+
+      "/56 · 方案 "+(bingoState.selectedCandidate+1)+
+      "/"+bingoState.candidates.length
+    :"随机金 Bingo · 尚未开局";
+
+  updateSaveSummary("bingo",activeSaveId,summary);
+}
+
+function bingoImageSource(itemId){
+  if(bingoImageUrls.length){
+    return bingoImageUrls[itemId%bingoImageUrls.length];
+  }
+
+  const number=String(itemId%BINGO_ASSET_COUNT+1).padStart(2,"0");
+  return "bingo-assets/"+number+".png";
+}
+
+function createBingoImage(itemId){
+  const image=document.createElement("img");
+
+  image.src=bingoImageSource(itemId);
+  image.alt="收集品 "+String(itemId%BINGO_ASSET_COUNT+1).padStart(2,"0");
+  image.draggable=false;
+
+  image.addEventListener("error",()=>{
+    image.style.visibility="hidden";
+  },{once:true});
+
+  return image;
+}
+
+function renderBingoPreview(target){
+  target.replaceChildren();
+
+  for(let index=0;index<24;index++){
+    const span=document.createElement("span");
+    const item=bingoState.cells[index%bingoState.cells.length];
+    span.appendChild(createBingoImage(item));
+    target.appendChild(span);
+  }
+}
+
+function renderCandidates(){
+  const container=$("bingo-candidates");
+  container.replaceChildren();
+
+  bingoState.candidates.forEach((candidate,index)=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="candidate";
+    button.dataset.bingoCandidate=String(index);
+
+    const active=index===bingoState.selectedCandidate;
+
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+    button.disabled=bingoState.swapMode||bingoState.winShown;
+
+    const heading=document.createElement("div");
+    heading.className="candidate-title";
+
+    const title=document.createElement("strong");
+    title.textContent="方案 "+(index+1);
+
+    const status=document.createElement("em");
+    status.textContent=active?"正在游玩":"点击切换";
+
+    heading.append(title,status);
+
+    const mini=document.createElement("div");
+    mini.className="mini-grid";
+
+    candidate.slice(0,21).forEach(item=>{
+      const span=document.createElement("span");
+
+      if(active&&bingoState.marked.includes(item)){
+        span.classList.add("marked");
+      }
+
+      span.appendChild(createBingoImage(item));
+      mini.appendChild(span);
+    });
+
+    button.append(heading,mini);
+    container.appendChild(button);
+  });
+}
+
+function isBingoIndexMarked(index){
+  return bingoState.marked.includes(bingoState.cells[index]);
+}
+
+function getBingoLines(){
+  const lines=[];
+  const length=bingoState.rule;
+
+  for(let row=0;row<BINGO_HEIGHT;row++){
+    for(let col=0;col<=BINGO_WIDTH-length;col++){
+      lines.push(
+        Array.from({length},(_,offset)=>row*BINGO_WIDTH+col+offset)
+      );
+    }
+  }
+
+  for(let col=0;col<BINGO_WIDTH;col++){
+    for(let row=0;row<=BINGO_HEIGHT-length;row++){
+      lines.push(
+        Array.from({length},(_,offset)=>(row+offset)*BINGO_WIDTH+col)
+      );
+    }
+  }
+
+  for(let row=0;row<=BINGO_HEIGHT-length;row++){
+    for(let col=0;col<=BINGO_WIDTH-length;col++){
+      lines.push(
+        Array.from({length},(_,offset)=>(row+offset)*BINGO_WIDTH+col+offset)
+      );
+    }
+  }
+
+  for(let row=length-1;row<BINGO_HEIGHT;row++){
+    for(let col=0;col<=BINGO_WIDTH-length;col++){
+      lines.push(
+        Array.from({length},(_,offset)=>(row-offset)*BINGO_WIDTH+col+offset)
+      );
+    }
+  }
+
+  return lines;
+}
+
+function winningLineThrough(index){
+  return getBingoLines().find(line=>{
+    return line.includes(index)&&line.every(isBingoIndexMarked);
+  })||null;
+}
+
+function longestBingoLine(){
+  let longest=0;
+  const directions=[[0,1],[1,0],[1,1],[1,-1]];
+
+  for(let row=0;row<BINGO_HEIGHT;row++){
+    for(let col=0;col<BINGO_WIDTH;col++){
+      for(const [dr,dc] of directions){
+        let count=0;
+        let currentRow=row;
+        let currentCol=col;
+
+        while(
+          currentRow>=0&&currentRow<BINGO_HEIGHT&&
+          currentCol>=0&&currentCol<BINGO_WIDTH&&
+          isBingoIndexMarked(currentRow*BINGO_WIDTH+currentCol)
+        ){
+          count++;
+          currentRow+=dr;
+          currentCol+=dc;
+        }
+
+        longest=Math.max(longest,count);
+      }
+    }
+  }
+
+  return longest;
+}
+
+function updateBingoStats(){
+  $("bingo-rule-label").textContent=bingoState.rule+" 连";
+  $("bingo-line-label").textContent="连续 "+longestBingoLine()+" 格";
+  $("bingo-marked-label").textContent=bingoState.marked.length+" / 56";
+  $("bingo-earned-label").textContent=bingoState.earned+"R";
+}
+
+function renderBingoBoard(){
+  const grid=$("bingo-grid");
+  grid.replaceChildren();
+
+  bingoState.cells.forEach((itemId,index)=>{
+    const cell=document.createElement("button");
+    const marked=bingoState.marked.includes(itemId);
+
+    cell.type="button";
+    cell.className="bingo-cell";
+    cell.dataset.bingoIndex=String(index);
+    cell.classList.toggle("marked",marked);
+    cell.classList.toggle("swap-selected",bingoState.swapSelection.includes(index));
+    cell.setAttribute("aria-pressed",String(marked));
+    cell.setAttribute("aria-label","第 "+(index+1)+" 格"+(marked?"，已标记":""));
+
+    const number=document.createElement("small");
+    number.textContent=String(index+1).padStart(2,"0");
+
+    cell.append(createBingoImage(itemId),number);
+    grid.appendChild(cell);
+  });
+
+  renderBingoPreview($("bingo-preview-board"));
+  renderCandidates();
+  updateBingoStats();
+
+  $("bingo-round-label").textContent=
+    "方案 "+(bingoState.selectedCandidate+1)+" · 7×8";
+
+  $("bingo-swap-hint").classList.toggle("hidden",!bingoState.swapMode);
+
+  const remaining=Math.max(0,3-bingoState.candidates.length);
+
+  $("bingo-generate-button").disabled=
+    remaining===0||bingoState.swapMode||bingoState.winShown;
+
+  $("bingo-generate-button").textContent=remaining
+    ?"生成新棋盘（还可生成 "+remaining+" 张）"
+    :"候选棋盘已满（3 张）";
+
+  $("bingo-clear-button").disabled=
+    bingoState.winShown||bingoState.swapMode;
+}
+
+function showBingoView(){
+  $("bingo-setup").classList.toggle("hidden",bingoState.started);
+  $("bingo-board-section").classList.toggle("hidden",!bingoState.started);
+
+  if(bingoState.started){
+    renderBingoBoard();
+  }else{
+    renderBingoPreview($("bingo-preview"));
+  }
+}
+
+function rewardValues(){
+  if(bingoState.rule===3)return{self:66,hand:88};
+  if(bingoState.rule===4)return{self:88,hand:108};
+  return{self:108,hand:128};
+}
+
+function updateRewardSelection(){
+  document.querySelectorAll("[data-reward]").forEach(button=>{
+    const active=button.dataset.reward===bingoState.rewardChoice;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+  });
+}
+
+function showRewardModal(){
+  const values=rewardValues();
+
+  $("reward-title").textContent=bingoState.rule+" 连完成！";
+  $("reward-copy").textContent=
+    "请选择道具。自救会打乱当前图片；上帝之手可以交换两个格子。已经标记的图片会继续保持高亮。";
+
+  $("reward-self-button").textContent="自救 · "+values.self+"R";
+  $("reward-hand-button").textContent="上帝之手 · "+values.hand+"R";
+
+  updateRewardSelection();
+  $("reward-mask").classList.remove("hidden");
+}
+
+function useBingoReward(){
+  if(!bingoState.winShown)return;
+
+  const values=rewardValues();
+  const choice=bingoState.rewardChoice;
+
+  bingoState.earned+=values[choice];
+  bingoState.winShown=false;
+  $("reward-mask").classList.add("hidden");
+
+  if(choice==="self"){
+    bingoState.cells=shuffle(bingoState.cells);
+
+    /*
+      marked 保存独立图片编号，不保存格子位置。
+      打乱只改变 cells，高亮跟随原来的图片移动。
+    */
+    bingoState.candidates[bingoState.selectedCandidate]=bingoState.cells.slice();
+    bingoState.swapMode=false;
+    bingoState.swapSelection=[];
+
+    renderBingoBoard();
+    saveBingo();
+    showToast("自救已使用，原来标记的图片继续保持高亮");
+  }else{
+    bingoState.swapMode=true;
+    bingoState.swapSelection=[];
+
+    renderBingoBoard();
+    saveBingo();
+    showToast("上帝之手已使用，请点击两个格子交换位置");
+  }
+}
+
+function handleBingoSwap(index){
+  if(!bingoState.swapMode)return;
+
+  if(bingoState.swapSelection.includes(index)){
+    bingoState.swapSelection=bingoState.swapSelection.filter(item=>item!==index);
+  }else{
+    bingoState.swapSelection.push(index);
+  }
+
+  if(bingoState.swapSelection.length===2){
+    const [first,second]=bingoState.swapSelection;
+
+    [bingoState.cells[first],bingoState.cells[second]]=[
+      bingoState.cells[second],
+      bingoState.cells[first]
+    ];
+
+    /*
+      不清空、不改写 marked。
+      图片交换位置后，高亮仍跟着对应图片。
+    */
+    bingoState.candidates[bingoState.selectedCandidate]=bingoState.cells.slice();
+    bingoState.swapMode=false;
+    bingoState.swapSelection=[];
+
+    renderBingoBoard();
+    saveBingo();
+    showToast("两个图片已交换，高亮已跟随图片移动");
+  }else{
+    renderBingoBoard();
+    saveBingo();
+  }
+}
+
+function applyCandidate(index){
+  const candidate=bingoState.candidates[index];
+  if(!candidate)return;
+
+  bingoState.selectedCandidate=index;
+  bingoState.round=index+1;
+  bingoState.cells=candidate.slice();
+  bingoState.marked=[];
+  bingoState.winShown=false;
+  bingoState.swapMode=false;
+  bingoState.swapSelection=[];
+
+  $("candidate-confirm-mask").classList.add("hidden");
+  closeBlackholeResultModal();
+  pendingCandidateIndex=-1;
+
+  renderBingoBoard();
+  saveBingo();
+  showToast("已切换到方案 "+(index+1));
+}
+
+function selectCandidate(index){
+  if(
+    index===bingoState.selectedCandidate||
+    !bingoState.candidates[index]||
+    bingoState.swapMode||
+    bingoState.winShown
+  ){
+    return;
+  }
+
+  if(bingoState.marked.length){
+    pendingCandidateIndex=index;
+    $("candidate-confirm-mask").classList.remove("hidden");
+    return;
+  }
+
+  applyCandidate(index);
+}
+
+$("bingo-start-button").addEventListener("click",()=>{
+  const rule=bingoState.rule;
+  const firstBoard=newBingoBoard();
+
+  bingoState=freshBingo();
+  bingoState.rule=rule;
+  bingoState.started=true;
+  bingoState.candidates=[firstBoard.slice()];
+  bingoState.cells=firstBoard.slice();
+
+  showBingoView();
+  saveBingo();
+  showToast("已生成方案 1，还可以生成 2 张棋盘");
+});
+
+document.querySelectorAll("[data-bingo-rule]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    bingoState.rule=Number(button.dataset.bingoRule);
+
+    document.querySelectorAll("[data-bingo-rule]").forEach(item=>{
+      const active=item===button;
+      item.classList.toggle("active",active);
+      item.setAttribute("aria-pressed",String(active));
+    });
+
+    $("bingo-start-button").textContent=
+      "确认 "+bingoState.rule+" 连规则并开局";
+  });
+});
+
+$("bingo-grid").addEventListener("click",event=>{
+  const cell=event.target.closest("[data-bingo-index]");
+
+  if(!cell||!bingoState.started||bingoState.winShown)return;
+
+  const index=Number(cell.dataset.bingoIndex);
+
+  if(bingoState.swapMode){
+    handleBingoSwap(index);
+    return;
+  }
+
+  const itemId=bingoState.cells[index];
+
+  if(bingoState.marked.includes(itemId))return;
+
+  bingoState.marked.push(itemId);
+
+  /*
+    仅检查本次新标记所完成的连线，
+    避免使用道具后，旧连线因点击无关格子而重复弹窗。
+  */
+  const line=winningLineThrough(index);
+
+  if(line){
+    bingoState.winShown=true;
+    bingoState.rewardChoice="self";
+  }
+
+  renderBingoBoard();
+  saveBingo();
+
+  if(line){
+    showRewardModal();
+  }
+});
+
+$("bingo-generate-button").addEventListener("click",()=>{
+  if(
+    !bingoState.started||
+    bingoState.candidates.length>=3||
+    bingoState.swapMode||
+    bingoState.winShown
+  ){
+    return;
+  }
+
+  const next=newBingoBoard();
+
+  bingoState.candidates.push(next.slice());
+  bingoState.selectedCandidate=bingoState.candidates.length-1;
+  bingoState.round=bingoState.selectedCandidate+1;
+  bingoState.cells=next.slice();
+  bingoState.marked=[];
+  bingoState.winShown=false;
+  bingoState.swapSelection=[];
+  bingoState.refreshes=bingoState.candidates.length-1;
+
+  renderBingoBoard();
+  saveBingo();
+
+  showToast(
+    bingoState.candidates.length===3
+      ?"已生成方案 3，候选棋盘已满"
+      :"已生成方案 "+bingoState.candidates.length
+  );
+});
+
+$("bingo-clear-button").addEventListener("click",()=>{
+  if(bingoState.winShown||bingoState.swapMode)return;
+
+  bingoState.marked=[];
+  bingoState.swapSelection=[];
+
+  renderBingoBoard();
+  saveBingo();
+  showToast("已清空当前棋盘标记");
+});
+
+$("bingo-candidates").addEventListener("click",event=>{
+  const button=event.target.closest("[data-bingo-candidate]");
+  if(!button)return;
+
+  selectCandidate(Number(button.dataset.bingoCandidate));
+});
+
+$("candidate-cancel-button").addEventListener("click",()=>{
+  pendingCandidateIndex=-1;
+  $("candidate-confirm-mask").classList.add("hidden");
+});
+
+$("candidate-confirm-button").addEventListener("click",()=>{
+  if(pendingCandidateIndex>=0){
+    applyCandidate(pendingCandidateIndex);
+  }
+});
+
+document.querySelectorAll("[data-reward]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    bingoState.rewardChoice=button.dataset.reward;
+    updateRewardSelection();
+    saveBingo();
+  });
+});
+
+$("reward-confirm-button").addEventListener("click",useBingoReward);
+
+$("bingo-assets-input").addEventListener("change",event=>{
+  const imageFiles=Array.from(event.target.files||[])
+    .filter(file=>{
+      return file.type.startsWith("image/")||
+        /\.(png|jpg|jpeg|webp|gif)$/i.test(file.name);
+    });
+
+  const numberedFiles=imageFiles.filter(file=>{
+    return /^\d+\.(png|jpg|jpeg|webp|gif)$/i.test(file.name);
+  });
+
+  const files=(numberedFiles.length?numberedFiles:imageFiles)
+    .sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));
+
+  if(!files.length){
+    showToast("选择的文件夹里没有找到图片");
+    return;
+  }
+
+  bingoImageUrls.forEach(url=>URL.revokeObjectURL(url));
+  bingoImageUrls=files.map(file=>URL.createObjectURL(file));
+
+  renderBingoPreview($("bingo-preview"));
+
+  if(bingoState.started){
+    renderBingoBoard();
+  }
+
+  showToast("已载入 "+files.length+" 张图片");
+});
+
+$("back-bingo-save").addEventListener("click",()=>{
+  saveBingo();
+  hideDialogs();
+  renderSaveCards();
+  showPage("save");
+});
+
+document.addEventListener("keydown",event=>{
+  if(event.key!=="Escape")return;
+
+  $("save-modal-mask").classList.add("hidden");
+  $("candidate-confirm-mask").classList.add("hidden");
+  closeBlackholeResultModal();
+  pendingCandidateIndex=-1;
+});
+
+window.addEventListener("pagehide",()=>{
+  if(!activeSaveId)return;
+
+  if(selectedGame==="pig"){
+    completeRoll();
+    saveJourney();
+  }else if(selectedGame==="bingo"){
+    saveBingo();
+  }else if(selectedGame==="blackhole"){
+    saveBlackhole();
+  }
+});
+
+buildDice();
+renderJourney();
+renderBingoPreview($("bingo-preview"));
+showPage("journey");
+
+})();
+</script>
+</body>
+</html>
